@@ -32,4 +32,4 @@ app.use(session({
 
 require('./routes')
 
-app.listen(1377)
+app.listen(process.env.PORT || 3000)
