@@ -1,0 +1,15 @@
+extends skeleton
+block title
+  title Internal Server Error
+block content
+  .error.error-panel.form-group-error
+    h1.heading-xlarge Internal Server Error
+    p The server encountered an unexpected condition that prevented it from fulfilling the request.
+    if err
+      details(open)
+        summary
+          span.summary Stack trace
+        pre.code.stack= err.stack
+    else
+      p That's all we know.
+    a.link-back(href='/') Back to homepage

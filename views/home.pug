@@ -1,0 +1,56 @@
+extends skeleton
+block css
+  link(rel="stylesheet",href="home.css")
+  script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
+block breadcrumbs
+block content
+  .hero
+    .grid-row
+      .column-two-thirds
+        .fortune-outer
+          h1.heading-xlarge Jaffa Cake Ballototron
+          if fortune
+            p.font-small.fortune #{String(fortune).replace(/--/g,'—')}
+          else
+            p.font-small.fortune Hello
+      .column-one-third.black-nav.data
+        .data-item.bold-xlarge 34
+        .data-item.bold-xsmall votes cast
+  .grid-row
+      h2.heading-large Voting
+      p.heading-medium Which sample do you wish to rate next?
+      table.sortable
+        thead
+          th Sample
+          th.numeric Sponge
+          th.numeric Orange
+          th.numeric Chocolate
+          th.numeric Overall
+          th McVitie's?
+          th.numeric Cost
+          th Buy again?
+        tbody
+          for sample in "ABCDEFGHIJKLMNO".split('')
+            tr
+              if Math.random() > 0.5
+                td: a(href="/sample/"+sample).samplelink= sample.toUpperCase()
+                td(colspan="7").pending
+                  span Waiting for you to&nbsp;
+                  a(href="/sample/"+sample) record results for sample #{sample.toUpperCase()}
+              else
+                td: a(href="/sample/"+sample).samplelink= sample.toUpperCase()
+                td.numeric= Math.round(Math.random()*100)
+                td.numeric= Math.round(Math.random()*100)
+                td.numeric= Math.round(Math.random()*100)
+                td.numeric= Math.round(Math.random()*100)
+                td= Math.random() > 0.5 ? "Yes" : "No"
+                td.numeric="£0."+ Math.round(Math.random()*10)+"9"
+                td= Math.random() > 0.5 ? "Yes" : "No"
+  .grid-row
+    h2.heading-small View the results
+    p.font-small
+      span When you finish entering scores, you may&nbsp;
+      a(href="/results") proceed to the results
+      span .
+    p.panel.font-small You cannot vote once you have viewed the results.
+      p.placeholder: span(lang="cy",title="a world without cakes is no world at all") nid byd, byd heb teisennau
