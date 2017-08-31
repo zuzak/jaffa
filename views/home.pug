@@ -19,16 +19,13 @@ block content
   .grid-row
       h2.heading-large Voting
       p.heading-medium Which sample do you wish to rate next?
-      table.sortable
+      table.sortable.column-two-thirds
         thead
           th Sample
           th.numeric Sponge
           th.numeric Orange
           th.numeric Chocolate
           th.numeric Overall
-          th McVitie's?
-          th.numeric Cost
-          th Buy again?
         tbody
           for sample in "ABCDEFGHIJKLMNO".split('')
             tr
@@ -43,9 +40,6 @@ block content
                 td.numeric= Math.floor(Math.random()*100)
                 td.numeric= Math.floor(Math.random()*100)
                 td.numeric= Math.floor(Math.random()*100)
-                td= Math.random() > 0.5 ? "Yes" : "No"
-                td.numeric="£0."+ Math.round(Math.random()*10)+"9"
-                td= Math.random() > 0.5 ? "Yes" : "No"
   .grid-row
     h2.heading-small View the results
     p.font-small
