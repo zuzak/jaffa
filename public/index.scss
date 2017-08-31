@@ -98,3 +98,14 @@ footer a:hover {
 	text-align:center;
 	display:block;
 }
+
+table td.numeric {
+	font-family: $toolkit-font-stack;
+}
+.pending {
+
+	text-align: center;
+}
+.pending:before, .pending:after {
+	content: ' ⁓ ';
+}
