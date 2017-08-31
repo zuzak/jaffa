@@ -1,0 +1,100 @@
+$path: "/";
+$toolkit-font-stack: "Varela";
+$accent-color: #4b92db;
+$accent-color: #843B68;
+$accent-color: #FE9702;
+
+@import 'https://fonts.googleapis.com/css?family=Varela';
+
+@import 'govuk-elements';
+@import '_conditionals';
+@import 'elements/govuk-template-base';
+
+.phase-tag { background-color: $accent-color !important;}
+a:visited { color: $accent-color }
+
+header {
+	background-color: $text-colour;
+	color: $page-colour;
+  min-height: 3em;
+}
+.header .logo {
+	color: inherit;
+	text-decoration: inherit;
+	text-transform: uppercase;
+}
+.logo {
+  display:inline-block;
+  padding-top: 0.1em;
+}
+.logo:hover {
+	text-decoration: underline;
+}
+.header, .footer {
+	@extend %site-width-container;
+}
+
+footer {
+	background-color: $panel-colour;
+	border-top: 1px solid $secondary-text-colour;
+	color: $secondary-text-colour;
+	box-shadow: 0 50em 0 50em $panel-colour;
+	padding-top: 1em;
+}
+footer a, footer span {
+	color: $secondary-text-colour !important;
+	padding: 1em;
+}
+footer a:hover {
+	color: $text-colour !important;
+}
+
+.accent-bar {
+	background-color: $accent-color;
+	height: 0.5em;
+	width: 100%;
+}
+
+.header .login {
+	margin-top: 0.5em;
+	margin-right: 1em;
+	float:right;
+}
+.stack {
+	overflow: scroll;
+}
+.red { color: $error-colour }
+.green { color: $grass-green }
+.grid-row { margin: 0 0 !important; }
+.center { text-align: center; }
+.almost-unanimous::before { content: "🔶 ⚠ "}
+.unanimous::before { content: "🏆 "}
+.incomplete::before { content: "⚠ "}
+.languages {
+  list-style-type: none;
+  li, h2, ul { display: inline-block; }
+  h2 { font-weight: bold; }
+}
+
+
+.samplelist {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  li {
+    text-transform: uppercase;
+    flex-grow: 1;
+    text-align: center;
+    list-style-type: none;
+    a {
+      font-size: 3em;
+      display:block;
+    }
+  }
+}
+
+.samplelink {
+	@extend .font-medium;
+	text-align:center;
+	display:block;
+}

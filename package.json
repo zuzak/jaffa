@@ -1,0 +1,23 @@
+{
+  "main": "server.js",
+  "devDependencies": {
+    "standard": "^8.1.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.15.2",
+    "express-session-json": "0.0.8",
+    "govuk-elements-sass": "^3.0.2",
+    "govuk_frontend_toolkit": "^5.2.0",
+    "node-sass-middleware": "^0.9.8",
+    "pug": "^2.0.0-beta6"
+  },
+  "private": true,
+  "license": "MIT",
+  "repository": "zuzak/jaffa",
+  "pre-commit": [
+    "standard"
+  ]
+}
