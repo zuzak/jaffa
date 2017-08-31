@@ -39,10 +39,10 @@ block content
                   a(href="/sample/"+sample) record results for sample #{sample.toUpperCase()}
               else
                 td: a(href="/sample/"+sample).samplelink= sample.toUpperCase()
-                td.numeric= Math.round(Math.random()*100)
-                td.numeric= Math.round(Math.random()*100)
-                td.numeric= Math.round(Math.random()*100)
-                td.numeric= Math.round(Math.random()*100)
+                td.numeric= Math.floor(Math.random()*100)
+                td.numeric= Math.floor(Math.random()*100)
+                td.numeric= Math.floor(Math.random()*100)
+                td.numeric= Math.floor(Math.random()*100)
                 td= Math.random() > 0.5 ? "Yes" : "No"
                 td.numeric="£0."+ Math.round(Math.random()*10)+"9"
                 td= Math.random() > 0.5 ? "Yes" : "No"
