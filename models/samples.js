@@ -9,31 +9,34 @@ var schema = new mongoose.Schema({
   sampleIdentifier: {type: String, index: {unique: true}},
   allergens: Array,
   mayContain: Array,
-  description: String
+  description: String,
+  image: String
 })
 
-var jaffaCakes = [
+var jaffaCakes = [ // these aren't the order they are in the app
   {
     purchaseLocation: 'Aldi',
-    brand: 'Belmont Biscuits',
+    brand: 'Belmont Biscuits Jaffa Cakes',
     description: 'Sponge base with an orange flavoured filling and a plain chocolate topping',
     price: 0.89,
     pricePer: 24,
     allergens: [ "Soya", "Egg", "Wheat"],
-    mayContain: [ "Nuts", "Milk" ]
+    mayContain: [ "Nuts", "Milk" ],
+    image: 'https://i.imgur.com/knmRDCtm.png'
   },
   {
     purchaseLocation: "Lidl",
-    brand: "Sondey",
+    brand: "Sondey Jaffa Cakes",
     description: "Mini sponge cakes with 55% orange flavoured jelly centre, topped with 17% dark chocolate",
     price: 0.89,
     pricePer: 24,
-    allergens: [ 'Wheat', 'Egg', 'Soya', 'Milk'],
-    mayContain: []
+    allergens: [ 'Wheat', 'Egg  ', 'Soya', 'Milk'],
+    mayContain: [],
+    image: 'https://i.imgur.com/xr8Ibdjm.png'
   },
   {
     purchaseLocation: 'Tesco',
-    brand: 'Tesco',
+    brand: 'Jaffa Cakes',
     description: 'Golden sponge base with an orange flavoured centre, half coated in plain chocolate',
     price: 0.95,
     pricePer: 24,
@@ -42,7 +45,7 @@ var jaffaCakes = [
   },
   {
     purchaseLocation: 'McVitie\'s',
-    brand: 'McVitie\'s',
+    brand: 'Jaffa Cakes',
     description: 'Light sponge cakes with dark crackly chocolate and a smashing orangey centre',
     price: 1.00,
     pricePer: 24,
@@ -51,25 +54,27 @@ var jaffaCakes = [
   },
   {
     purchaseLocation: 'Morrison\'s',
-    brand: 'Morrisons',
+    brand: 'Jaffa Cakes',
     description: 'Sponge biscuit with orange fruit filling (55%) and dark chocolate',
     price: 0.96,
     pricePer: 24,
     allergens: ['Soya', 'Wheat', 'Egg'],
-    mayContain: ['Milk', 'Nuts']
+    mayContain: ['Milk', 'Nuts'],
+    image: 'https://i.imgur.com/Px0jJo9m.png'
   },
   {
     purchaseLocation: 'Marks & Spencer',
-    brand: 'Marks & Spencer',
+    brand: 'Dark Chocolate Jaffa Cakes',
     description: 'Sponge cakes topped with orange filling and half coated in dark chocolate',
     price: 1.00,
     pricePer: 11, // eleven(!)
     allergens: ['Milk', 'Wheat', 'Egg', 'Soya'],
-    mayContain: ['Nuts']
+    mayContain: ['Nuts'],
+    image: 'https://i.imgur.com/mWeLQosm.png'
   },
   {
     purchaseLocation: 'Morrison\'s',
-    brand: 'M Savers',
+    brand: 'M Savers Jaffa Cakes',
     description: 'Sponge biscuit with orange fruit filling (55%) and dark chocolate',
     allergens: ['Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk', 'Nuts'],
@@ -78,11 +83,12 @@ var jaffaCakes = [
   },
   {
     purchaseLocation: 'Bahlsen',
-    brand: 'Messino',
+    brand: 'Messino Tangy Jaffa Cakes',
     description: 'Luxury sponge cakes with a tangy orange fruit filling (53%) half-coated in dark chocolate (19%)',
     allergens: ['Wheat', 'Egg', 'Whey', 'Soya', 'Milk'],
     mayContain: ['Hazelnuts'],
-    pricePer: 11
+    pricePer: 11,
+    image: 'https://i.imgur.com/yUq7oYom.png'
   },
   {
     purchaseLocation: 'Aldi',
@@ -100,7 +106,8 @@ var jaffaCakes = [
     pricePer: 24,
     description: 'Sponge cakes with a tangy orange filling topped with real chocolate',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
-    mayContain: ['Nuts', 'Milk']
+    mayContain: ['Nuts', 'Milk'],
+    image: 'https://i.imgur.com/sYWLiuJm.jpg'
   },
   {
     purchaseLocation: 'Asda',
@@ -118,7 +125,8 @@ var jaffaCakes = [
     pricePer: 36,
     description: 'Dark chocolate topped sponge cakes with orange flavoured filling',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
-    mayContain: [ 'Milk' ]
+    mayContain: [ 'Milk' ],
+    image: 'https://i.imgur.com/39xBf32m.png'
   },
   {
     purchaseLocation: 'Asda',
@@ -136,7 +144,8 @@ var jaffaCakes = [
     allergens: ['Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk'],
     price: 0.60,
-    description: 'Sponge cakes with an orange flavoured centre half coated in dark chocolate'
+    description: 'Sponge cakes with an orange flavoured centre half coated in dark chocolate',
+    image: 'https://i.imgur.com/qXMwSfgm.png'
   },
   {
     purchaseLocation: 'Fultons',
@@ -154,7 +163,7 @@ var Sample = module.exports = mongoose.model('Sample', schema)
 Sample.find({}, function (err, response) {
   if (err) throw err
   if (response.length < jaffaCakes.length) {
-    shuffle(jaffaCakes)
+    jaffaCakes = shuffle(jaffaCakes)
     for (var i = 0; i < jaffaCakes.length; i++) {
       var c = jaffaCakes[i]
       c.sampleIdentifier = String.fromCharCode(65 + i) // 64 == 'A'
