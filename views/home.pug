@@ -27,15 +27,15 @@ block content
           th.numeric Chocolate
           th.numeric Overall
         tbody
-          for sample in "ABCDEFGHIJKLMNO".split('')
+          for sample in samples
             tr
               if Math.random() > 0.5
-                td: a(href="/sample/"+sample).samplelink= sample.toUpperCase()
+                td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
                 td(colspan="7").pending
                   span Waiting for you to&nbsp;
-                  a(href="/sample/"+sample) record results for sample #{sample.toUpperCase()}
+                  a(href="/sample/"+sample.sampleIdentifier) record results for sample #{sample.sampleIdentifier}
               else
-                td: a(href="/sample/"+sample).samplelink= sample.toUpperCase()
+                td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
                 td.numeric= Math.floor(Math.random()*100)
                 td.numeric= Math.floor(Math.random()*100)
                 td.numeric= Math.floor(Math.random()*100)
@@ -45,6 +45,3 @@ block content
     p.font-small
       span You can amend your scores above. When you have finished entering scores, you may:
       form: input(type="button",value="Lock in answers and view results").button
-      span .
-    p.panel.font-small You cannot vote once you have viewed the results.
-      p.placeholder: span(lang="cy",title="a world without cakes is no world at all") nid byd, byd heb teisennau

@@ -1,0 +1,28 @@
+extends skeleton
+block css
+  link(rel="stylesheet",href="/index.css")
+block breadcrumbs
+block content
+  h1.heading-large Sample #{sample.sampleIdentifier}
+  h2.heading-medium #{sample.purchaseLocation} #{sample.brand}
+  .grid-row
+    .column-two-thirds
+
+      if sample.description
+        h3.heading-small Description
+        blockquote.font-small= sample.description
+
+      h3.heading-small Allergen information
+      p Contains: #{sample.allergens.join(', ')}
+      if sample.mayContain.length > 0
+        p May contain/not suitable for those suffering allergy from: #{sample.mayContain.join(', ')}
+    .column-one-third
+      if sample.image
+        img(src=sample.image)
+      .data
+        .data-item.bold-xlarge= '£' + sample.price.toPrecision(2)
+        .data-item.bold-xsmall per #{sample.pricePer}-pack
+      .data
+        .data-item.bold-xlarge= '£' + (sample.price/sample.pricePer).toPrecision(2)
+        .data-item.bold-xsmall per cake
+  a(href='/').link-back Back to samples

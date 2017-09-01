@@ -109,3 +109,12 @@ table td.numeric {
 .pending:before, .pending:after {
 	content: ' ⁓ ';
 }
+blockquote:before {
+	content: '“'
+}
+blockquote:after {
+	content: '”'
+}
+table.sortable th {
+	cursor: pointer;
+}
