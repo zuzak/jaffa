@@ -1,0 +1,21 @@
+extends skeleton
+block breadcrumbs
+block content
+  .grid-row
+    .column-two-thirds
+        h1.heading-large Welcome
+        p This is a really quickly written application and there's lots of security holes, so:
+        form(method="POST")
+          .form-group
+            fieldset
+              .multiple-choice
+                input#promise(name="promise", type="checkbox", value="promise", required).form-control
+                label(for="promise") I promise not to be a spoilsport
+          .form-group
+            input(type="submit", value="Begin ballot").button-get-started.button
+        .panel
+            p.
+                This website uses cookies to identify you and your votes.
+            p.
+                If you clear your cookies or use a different browser, your votes will no longer be associated with you
+                and things will go wonky. So don't do that.

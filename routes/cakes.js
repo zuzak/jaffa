@@ -1,6 +1,7 @@
 var app = require('../server.js')
 var Sample = require('../models/samples')
 var Score = require('../models/score')
+var User = require('../models/user')
 var exec = require('child_process').exec
 var fs = require('fs')
 
@@ -37,16 +38,34 @@ app.get('/results', function (req, res) {
   res.status(501).render('placeholder.pug')
 })
 
+app.post('/', function (req, res, next) {
+  if (req.body.promise) {
+    User.update({user: req.sessionID}, {promised: req.body.promise === 'promise'}, {upsert: true}, function (err, result) {
+      console.log(err, result)
+      if (err) {
+        next(err)
+      } else {
+        res.redirect('/')
+      }
+    })
+  } else {
+    res.redirect('/')
+  }
+})
 app.get('/', function (req, res, next) {
-  console.log('a', req.sessionID)
+  User.find({user: req.sessionID}, function (err, result) {
+    if (err) return next(err)
+    if (result.length > 0 && result[0].promised === true) return next()
+    res.render('promise.pug')
+  })
+})
+app.get('/', function (req, res, next) {
   Score.count({}, function (err, count) {
     if (err) return next(err)
     Score.find({user: req.sessionID}, function (err, rawScores) {
       if (err) next(err)
-      console.log('b', rawScores)
       var scores = {}
       for (var i = 0; i < rawScores.length; i++) {
-        console.log('c', i)
         var curr = rawScores[i]
         console.log(curr)
         scores[curr.sampleIdentifier] = curr
@@ -56,5 +75,11 @@ app.get('/', function (req, res, next) {
         res.render('home.pug', {samples, scores, count})
       })
     })
+  })
+})
+app.post('/lockout', function (req, res, next) {
+  User.update({user: req.sessionID}, {lockedOut: true}, function (err, response) {
+    if (err) return next(err)
+    res.redirect('/results')
   })
 })
