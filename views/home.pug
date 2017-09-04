@@ -4,6 +4,7 @@ block css
   script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
 block breadcrumbs
 block content
+  - i = 0
   .hero
     .grid-row
       .column-two-thirds
@@ -13,12 +14,26 @@ block content
             p.font-small.fortune #{String(fortune).replace(/--/g,'—')}
           else
             p.font-small.fortune Hello
-      .column-one-third.black-nav.data
-        .data-item.bold-xlarge 34
-        .data-item.bold-xsmall votes cast
+      .column-one-third.black-nav
+        .grid-row
+          .column-half
+            .data
+              .data-item.bold-xlarge= count
+              .data-item.bold-xsmall votes cast
+          .column-half
+            .data
+              .data-item.bold-xlarge= samples.length
+              .data-item.bold-xsmall samples
   .grid-row
+      pre.code= JSON.stringify(scores,null,4)
       h2.heading-large Voting
-      p.heading-medium Which sample do you wish to rate next?
+      p Please select the sample you wish to score next:
+      .samplelist
+        for sample in samples
+          if !scores[sample.sampleIdentifier]
+            li: a(href='/sample/' + sample.sampleIdentifier)= sample.sampleIdentifier
+      h2.heading-large Your scores
+      p Here are the scores you have given to samples so far:
       table.sortable.column-two-thirds
         thead
           th Sample
@@ -29,19 +44,24 @@ block content
         tbody
           for sample in samples
             tr
-              if Math.random() > 0.5
+              if !scores[sample.sampleIdentifier]
+                - i++
                 td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
                 td(colspan="7").pending
                   span Waiting for you to&nbsp;
                   a(href="/sample/"+sample.sampleIdentifier) record results for sample #{sample.sampleIdentifier}
               else
                 td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
-                td.numeric= Math.floor(Math.random()*100)
-                td.numeric= Math.floor(Math.random()*100)
-                td.numeric= Math.floor(Math.random()*100)
-                td.numeric= Math.floor(Math.random()*100)
+                td.numeric= scores[sample.sampleIdentifier].sponge
+                td.numeric= scores[sample.sampleIdentifier].orange
+                td.numeric= scores[sample.sampleIdentifier].chocolate
+                td.numeric= scores[sample.sampleIdentifier].overall
   .grid-row
     h3.heading-small Results
     p.font-small
       span You can amend your scores above. When you have finished entering scores, you may:
       form: input(type="button",value="Lock in answers and view results").button
+    if i > 0
+      .panel.panel-border-wide
+        p You still have #{i} samples without scores.
+        p You cannot give them scores once you view the results.
