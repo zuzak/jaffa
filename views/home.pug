@@ -60,7 +60,8 @@ block content
     h3.heading-small Results
     p.font-small
       span You can amend your scores above. When you have finished entering scores, you may:
-      form: input(type="button",value="Lock in answers and view results").button
+      form(method="POST" action="/lockout")
+        input(type="submit", value="Lock in answers and view results").button
     if i > 0
       .panel.panel-border-wide
         p You still have #{i} samples without scores.

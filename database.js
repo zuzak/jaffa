@@ -10,4 +10,5 @@ db.on('error', function (err) {
 
 db.once('open', function () {
   require('./models/samples.js')
+  require('./models/user.js')
 })

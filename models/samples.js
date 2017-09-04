@@ -88,7 +88,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     allergens: ['Wheat', 'Egg', 'Whey', 'Soya', 'Milk'],
     mayContain: ['Hazelnuts'],
     pricePer: 11,
-    image: 'https://i.imgur.com/yUq7oYom.png'
+    image: 'https://i.imgur.com/yUq7oYom.png',
+    price: 1.19
   },
   {
     purchaseLocation: 'Aldi',
