@@ -6,6 +6,12 @@ var exec = require('child_process').exec
 var fs = require('fs')
 var json2csv = require('json2csv')
 
+app.get('/count.json', function (req, res) {
+  Score.count({}, function (err, count) {
+    res.json(count)
+  })
+})
+
 app.get('/sample/:sample', function (req, res, next) {
   Sample.find({sampleIdentifier: req.params.sample}, function (err, sample) {
     if (err) return next(err)
@@ -96,6 +102,8 @@ app.get('/', function (req, res, next) {
     return next()
   })
 })
+
+
 app.get('/', function (req, res, next) {
   Score.count({}, function (err, count) {
     if (err) return next(err)
