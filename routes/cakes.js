@@ -4,6 +4,7 @@ var Score = require('../models/score')
 var User = require('../models/user')
 var exec = require('child_process').exec
 var fs = require('fs')
+var json2csv = require('json2csv')
 
 app.get('/sample/:sample', function (req, res, next) {
   Sample.find({sampleIdentifier: req.params.sample}, function (err, sample) {
@@ -21,22 +22,48 @@ app.get('/sample/:sample', function (req, res, next) {
 
 app.post('/sample/:sample', function (req, res, next) {
   Score.update({
-    sampleIdentifier: req.params.sample,
+    sampleIdentifier: req.params.sample.toUpperCase(),
     user: req.sessionID
   }, req.body, {upsert: true}, function (err, update) {
     if (err) return next(err)
-    res.json(update)
+    res.redirect('/')
   })
 })
 app.get('/sample/:sample/info', function (req, res, next) {
-  Sample.find({sampleIdentifier: req.params.sample}, function (err, sample) {
+  User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
-    res.render('sample-info.pug', {sample: sample[0]})
+    console.log('RES', response)
+    if (response.length === 0) return res.status(403).render('403.pug')
+    Sample.find({sampleIdentifier: req.params.sample.toUpperCase()}, function (err, sample) {
+      if (err) return next(err)
+      Score.find({sampleIdentifier: req.params.sample.toUpperCase()}, function (err, scores) {
+        if (err) return next(err)
+        res.render('sample-info.pug', {sample: sample[0], scores})
+      })
+    })
   })
 })
-app.get('/results', function (req, res) {
-  res.status(501).render('placeholder.pug')
+app.get('/sample/:sample/votes.json', function (req, res, next) {
+  User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+    if (err) return next(err)
+    if (response.length === 0) return res.status(403).render('403.pug')
+    Score.find({sampleIdentifier: req.params.sample.toUpperCase()}, function (err, scores) {
+      if (err) return next(err)
+      for (var i = 0; i < scores.length; i++) {
+        scores[i]._id = null
+        scores[i].user = null
+
+        // these don't work?
+        delete scores[i]._id
+        delete scores[i].user
+      }
+      return res.json(scores)
+    })
+  })
 })
+// app.get('/results', function (req, res) {
+//   res.status(501).render('placeholder.pug')
+// })
 
 app.post('/', function (req, res, next) {
   if (req.body.promise) {
@@ -57,6 +84,13 @@ app.get('/', function (req, res, next) {
     if (err) return next(err)
     if (result.length > 0 && result[0].promised === true) return next()
     res.render('promise.pug')
+  })
+})
+app.get('/', function (req, res, next) {
+  User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+    if (err) return next(err)
+    if (response.length > 0) return res.redirect('/results')
+    return next()
   })
 })
 app.get('/', function (req, res, next) {
@@ -81,5 +115,41 @@ app.post('/lockout', function (req, res, next) {
   User.update({user: req.sessionID}, {lockedOut: true}, function (err, response) {
     if (err) return next(err)
     res.redirect('/results')
+  })
+})
+app.get('/results', function (req, res, next) {
+  User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+    if (err) return next(err)
+    if (response.length === 0) return res.redirect('/')
+    Sample.find(function (err, samples) {
+      if (err) return next(err)
+      res.render('results.pug', {samples})
+    })
+  })
+})
+
+app.get('/results.csv', function (req, res, next) {
+  User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+    if (err) return next(err)
+    if (response.length === 0) return res.status(403).render('403.pug')
+    Score.find(function (err, scores) {
+      if (err) return next(err)
+      var csv = []
+      csv.push(['sample', 'orange', 'chocolate', 'sponge', 'overall', 'perceivedPrice', 'isMcvities', 'wouldBuy'].join(','))
+      for (var i = 0; i < scores.length; i++) {
+        var c = scores[i]
+        csv.push([
+          c.sampleIdentifier,
+          c.orange,
+          c.chocolate,
+          c.overall,
+          c.price,
+          c.isMcvities,
+          c.wouldBuy
+        ].join(','))
+      }
+      res.type('text/csv')
+      return res.send(csv.join('\n'))
+    })
   })
 })
