@@ -123,11 +123,27 @@ app.get('/results', function (req, res, next) {
     if (response.length === 0) return res.redirect('/')
     Sample.find(function (err, samples) {
       if (err) return next(err)
-      res.render('results.pug', {samples})
+      Score.aggregate([{
+        $group: {
+          _id: '$sampleIdentifier',
+          orange: { $avg: '$orange' },
+          chocolate: { $avg: '$chocolate' },
+          sponge: { $avg: '$sponge' },
+          overall: { $avg: '$overall' },
+          price: { $avg: '$price' }
+        }
+      }], function (err, scores) {
+        if (err) return next(err)
+
+        var aggrScores = {}
+        for (var i = 0; i < scores.length; i++) {
+          aggrScores[scores[i]._id] = scores[i]
+        }
+        res.render('results.pug', {samples, aggrScores})
+      })
     })
   })
 })
-
 app.get('/results.csv', function (req, res, next) {
   User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
