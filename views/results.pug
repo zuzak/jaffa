@@ -1,0 +1,45 @@
+extends skeleton
+block css
+  link(rel="stylesheet",href="/index.css")
+  script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
+block breadcrumbs
+block content
+  .grid-row
+    h1.heading-xlarge Results
+    a(href='/results.csv') Download raw scores as CSV
+    table.sortable
+      thead
+        tr
+          th(colspan="2") Sample
+          th(colspan="4") Your scores
+          th(colspan="4") Average scores
+          th(rowspan="2") Price for twelve
+        tr
+          th Identifier
+          th Brand
+          th Sponge
+          th Orange
+          th Choc'
+          th Overall
+          th Sponge
+          th Orange
+          th Choc'
+          th Overall
+
+
+
+      tbody
+        for sample in samples
+          tr
+            td: a(href="/sample/" + sample.sampleIdentifier + "/info").samplelink= sample.sampleIdentifier
+            td= sample.brand
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td= '£' + ((sample.price/sample.pricePer)*12).toFixed(2)
+

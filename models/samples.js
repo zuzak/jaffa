@@ -2,7 +2,6 @@ var mongoose = require('mongoose')
 var shuffle = require('array-shuffle')
 
 var schema = new mongoose.Schema({
-  purchaseLocation: String,
   brand: String,
   price: Number,
   pricePer: Number,
@@ -15,8 +14,7 @@ var schema = new mongoose.Schema({
 
 var jaffaCakes = [ // these aren't the order they are in the app
   {
-    purchaseLocation: 'Aldi',
-    brand: 'Belmont Biscuits Jaffa Cakes',
+    brand: 'Aldi',
     description: 'Sponge base with an orange flavoured filling and a plain chocolate topping',
     price: 0.89,
     pricePer: 24,
@@ -25,8 +23,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/knmRDCtm.png'
   },
   {
-    purchaseLocation: "Lidl",
-    brand: "Sondey Jaffa Cakes",
+    brand: "Lidl",
     description: "Mini sponge cakes with 55% orange flavoured jelly centre, topped with 17% dark chocolate",
     price: 0.89,
     pricePer: 24,
@@ -35,8 +32,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/xr8Ibdjm.png'
   },
   {
-    purchaseLocation: 'Tesco',
-    brand: 'Jaffa Cakes',
+    brand: 'Tesco',
     description: 'Golden sponge base with an orange flavoured centre, half coated in plain chocolate',
     price: 0.95,
     pricePer: 24,
@@ -44,8 +40,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     mayContain: ['Milk']
   },
   {
-    purchaseLocation: 'McVitie\'s',
-    brand: 'Jaffa Cakes',
+    brand: 'McVitie\'s',
     description: 'Light sponge cakes with dark crackly chocolate and a smashing orangey centre',
     price: 1.00,
     pricePer: 24,
@@ -53,8 +48,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     mayContain: []
   },
   {
-    purchaseLocation: 'Morrison\'s',
-    brand: 'Jaffa Cakes',
+    brand: 'Morrisons',
     description: 'Sponge biscuit with orange fruit filling (55%) and dark chocolate',
     price: 0.96,
     pricePer: 24,
@@ -63,8 +57,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/Px0jJo9m.png'
   },
   {
-    purchaseLocation: 'Marks & Spencer',
-    brand: 'Dark Chocolate Jaffa Cakes',
+    brand: 'M&S',
     description: 'Sponge cakes topped with orange filling and half coated in dark chocolate',
     price: 1.00,
     pricePer: 11, // eleven(!)
@@ -73,8 +66,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/mWeLQosm.png'
   },
   {
-    purchaseLocation: 'Morrison\'s',
-    brand: 'M Savers Jaffa Cakes',
+    brand: 'Morrisons Savers',
     description: 'Sponge biscuit with orange fruit filling (55%) and dark chocolate',
     allergens: ['Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk', 'Nuts'],
@@ -82,8 +74,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 12
   },
   {
-    purchaseLocation: 'Bahlsen',
-    brand: 'Messino Tangy Jaffa Cakes',
+    brand: 'Bahlsen Messino',
     description: 'Luxury sponge cakes with a tangy orange fruit filling (53%) half-coated in dark chocolate (19%)',
     allergens: ['Wheat', 'Egg', 'Whey', 'Soya', 'Milk'],
     mayContain: ['Hazelnuts'],
@@ -92,8 +83,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     price: 1.19
   },
   {
-    purchaseLocation: 'Aldi',
-    brand: 'Everyday Essentials',
+    brand: 'Aldi Everyday Essentials',
     price: 0.31,
     pricePer: 12,
     description: 'Sponge base with an orange flavoured centre half coated in plain chocolate',
@@ -101,7 +91,6 @@ var jaffaCakes = [ // these aren't the order they are in the app
     mayContain: [ 'Milk']
   },
   {
-    purchaseLocation: 'Home Bargains',
     brand: 'Tango',
     price:  0.89,
     pricePer: 24,
@@ -111,8 +100,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/sYWLiuJm.jpg'
   },
   {
-    purchaseLocation: 'Asda',
-    brand: 'Smart Price',
+    brand: 'Asda Smart Price',
     pricePer: 12,
     price: 0.31,
     description: 'Sponge cakes with an orange-flavoured filling, topped with dark chocolate',
@@ -120,8 +108,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     mayContain: [ 'Milk' ]
   },
   {
-    purchaseLocation: 'Sainsbury\'s',
-    brand: 'by Sainsbury\'s',
+    brand: 'Sainsbury\'s',
     price: 1.55,
     pricePer: 36,
     description: 'Dark chocolate topped sponge cakes with orange flavoured filling',
@@ -130,17 +117,15 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/39xBf32m.png'
   },
   {
-    purchaseLocation: 'Asda',
+    brand: 'Asda',
     description: 'Sponge cakes with an orange-flavoured filling, topped with dark chocolate',
     price: 0.60,
     pricePer: 12,
     allergens: [ 'Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk'],
-    brand: ['Asda']
   },
   {
-    purchaseLocation: 'Sainsbury\'s',
-    brand: 'Basics',
+    brand: 'Sainsbury\'s Basics',
     pricePer: 12,
     allergens: ['Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk'],
@@ -149,8 +134,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/qXMwSfgm.png'
   },
   {
-    purchaseLocation: 'Fultons',
-    brand: 'Keepers Choice',
+    brand: 'Newsagents\'',
     pricePer: 32, // estimate (marked as 400g)
     allergens: [ 'Milk', 'Soya', 'Gluten', 'Egg', 'Sodium Metabisulphite'],
     mayContain: ['Nuts'],
@@ -169,7 +153,6 @@ Sample.find({}, function (err, response) {
       var c = jaffaCakes[i]
       c.sampleIdentifier = String.fromCharCode(65 + i) // 64 == 'A'
       Sample.update({
-        purchaseLocation: c.purchaseLocation,
         brand: c.brand
       }, c, {upsert: true}, function (err) {
         if (err) throw err

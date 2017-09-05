@@ -3,7 +3,9 @@ var path = require('path') // core
 var sass = require('node-sass-middleware')
 var app = module.exports = express()
 
+
 var session = require('express-session')
+var MongoStore = require('connect-mongo')(session)
 
 app.set('view engine', 'pug')
 app.set('json spaces', 2)
@@ -36,8 +38,9 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
+sessionOptions.store = new MongoStore({ mongooseConnection: require('./database')})
+
 app.use(session(sessionOptions))
 require('./routes')
-require('./database')
 
 app.listen(process.env.PORT || 3000)

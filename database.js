@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+var app = require('./server.js')
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/jaffa', {server: {auto_reconnect: true}})
 

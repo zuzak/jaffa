@@ -4,7 +4,7 @@ block css
 block breadcrumbs
 block content
   h1.heading-large Sample #{sample.sampleIdentifier}
-  h2.heading-medium #{sample.purchaseLocation} #{sample.brand}
+  h2.heading-medium #{sample.brand}
   .grid-row
     .column-two-thirds
 
@@ -16,11 +16,34 @@ block content
       p Contains: #{sample.allergens.join(', ')}
       if sample.mayContain.length > 0
         p May contain/not suitable for those suffering allergy from: #{sample.mayContain.join(', ')}
+
+      h3.heading-small Votes
+      p.font-xsmall: a.font-xsmall(href="votes.json") Download this as JSON
+      table
+        thead
+          th Sponge
+          th Orange
+          th Chocolate
+          th Overall
+          th McVitie's?
+          th Buy Again?
+        tbody
+          for score in scores
+            tr
+            td.numeric= score.sponge
+            td.numeric= score.orange
+            td.numeric= score.chocolate
+            td.numeric= score.overall
+            td= score.mcVities ? 'Yes' : 'No'
+            td= score.wouldBuy ? 'Yes' : 'No'
+          else
+            tr
+              td(colspan="6") Nobody has scored the #{sample.brand} jaffa cakes yet.
     .column-one-third
       if sample.image
         img(src=sample.image)
       .data
-        .data-item.bold-xlarge= '£' + sample.price.toPrecision(2)
+        .data-item.bold-xlarge= '£' + sample.price.toFixed(2)
         .data-item.bold-xsmall per #{sample.pricePer}-pack
       .data
         .data-item.bold-xlarge= '£' + (sample.price/sample.pricePer).toPrecision(2)
