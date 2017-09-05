@@ -7,7 +7,7 @@ var fs = require('fs')
 var json2csv = require('json2csv')
 
 app.get('/count.json', function (req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Origin', '*')
   Score.count({}, function (err, count) {
     res.json(count)
   })
@@ -103,7 +103,6 @@ app.get('/', function (req, res, next) {
     return next()
   })
 })
-
 
 app.get('/', function (req, res, next) {
   Score.count({}, function (err, count) {

@@ -2,7 +2,6 @@ var app = require('..')
 var exec = require('child_process').exec
 var fs = require('fs')
 
-
 // load a fortune :)
 app.get('/', function (req, res, next) {
   exec('fortune -s -n60', function (err, stdout, stderr) {
