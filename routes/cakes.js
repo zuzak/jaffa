@@ -21,18 +21,21 @@ app.get('/sample/:sample', function (req, res, next) {
 })
 
 app.post('/sample/:sample', function (req, res, next) {
-  Score.update({
-    sampleIdentifier: req.params.sample.toUpperCase(),
-    user: req.sessionID
-  }, req.body, {upsert: true}, function (err, update) {
+  User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
-    res.redirect('/')
+    if (response.length > 0) return res.status(403).render('403.pug')
+    Score.update({
+      sampleIdentifier: req.params.sample.toUpperCase(),
+      user: req.sessionID
+    }, req.body, {upsert: true}, function (err, update) {
+      if (err) return next(err)
+      res.redirect('/')
+    })
   })
 })
 app.get('/sample/:sample/info', function (req, res, next) {
   User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
-    console.log('RES', response)
     if (response.length === 0) return res.status(403).render('403.pug')
     Sample.find({sampleIdentifier: req.params.sample.toUpperCase()}, function (err, sample) {
       if (err) return next(err)
