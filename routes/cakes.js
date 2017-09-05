@@ -134,12 +134,20 @@ app.get('/results', function (req, res, next) {
         }
       }], function (err, scores) {
         if (err) return next(err)
-
         var aggrScores = {}
         for (var i = 0; i < scores.length; i++) {
           aggrScores[scores[i]._id] = scores[i]
         }
-        res.render('results.pug', {samples, aggrScores})
+
+        Score.find({user: req.sessionID}, function (err, userScores1) {
+          console.log(err, userScores1)
+          if (err) return next(err)
+          var userScores = {}
+          for (var i = 0; i < userScores1.length; i++) {
+            userScores[userScores1[i].sampleIdentifier] = userScores1[i]
+          }
+          res.render('results.pug', {samples, aggrScores, userScores})
+        })
       })
     })
   })
