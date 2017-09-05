@@ -14,7 +14,7 @@ var schema = new mongoose.Schema({
 
 var jaffaCakes = [ // these aren't the order they are in the app
   {
-    brand: 'Aldi',
+    brand: 'Aldi Belmont',
     description: 'Sponge base with an orange flavoured filling and a plain chocolate topping',
     price: 0.89,
     pricePer: 24,
@@ -37,6 +37,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     price: 0.95,
     pricePer: 24,
     allergens: [ 'Wheat', 'Egg', 'Soya'],
+    image: 'https://i.imgur.com/xFvSfFbm.jpg',
     mayContain: ['Milk']
   },
   {
@@ -45,7 +46,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     price: 1.00,
     pricePer: 24,
     allergens: ['Milk', 'Soya', 'Wheat', 'Egg'],
-    mayContain: []
+    mayContain: [],
+    image: 'https://i.imgur.com/keBmXog.jpg'
   },
   {
     brand: 'Morrisons',
@@ -71,7 +73,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     allergens: ['Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk', 'Nuts'],
     price: 0.38,
-    pricePer: 12
+    pricePer: 12,
+    image: 'https://i.imgur.com/fZPmdGK.jpg'
   },
   {
     brand: 'Bahlsen Messino',
@@ -88,7 +91,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 12,
     description: 'Sponge base with an orange flavoured centre half coated in plain chocolate',
     allergens: [ 'Wheat', 'Egg', 'Soya'],
-    mayContain: [ 'Milk']
+    mayContain: [ 'Milk'],
+    image: 'https://i.imgur.com/fW4pjbc.jpg'
   },
   {
     brand: 'Tango',
@@ -105,7 +109,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     price: 0.31,
     description: 'Sponge cakes with an orange-flavoured filling, topped with dark chocolate',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
-    mayContain: [ 'Milk' ]
+    mayContain: [ 'Milk' ],
+    image: 'https://i.imgur.com/MdzWFnqm.jpg'
   },
   {
     brand: 'Sainsbury\'s',
@@ -123,6 +128,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 12,
     allergens: [ 'Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk'],
+    image: 'https://i.imgur.com/CStg7rSm.jpg'
   },
   {
     brand: 'Sainsbury\'s Basics',
@@ -139,8 +145,35 @@ var jaffaCakes = [ // these aren't the order they are in the app
     allergens: [ 'Milk', 'Soya', 'Gluten', 'Egg', 'Sodium Metabisulphite'],
     mayContain: ['Nuts'],
     price: 1.00,
-    description: ''
-  }
+    description: '',
+    image: 'https://i.imgur.com/EwAqBxWm.jpg'
+  },
+  {
+    brand: "Milka",
+    pricePer: 12,
+    allergens: ['Wheat', 'Eggs', 'Milk', 'Hazelnuts' ],
+    mayContain: [ 'Other Nuts' ],
+    description: 'Biszkopty z galaretka o smaku pomaraṅczowym (52%) oblewane czrkoladą mleczną z mleka alpjskiego (15%)',
+    image: 'https://i.imgur.com/Ne1L0hKm.png'
+  },
+  {
+    brand: 'Delicje',
+    pricePer: 12,
+    allergens: [ 'Wheat', 'Eggs'],
+    mayContain: [ 'Milk', 'Nuts' ],
+    price: 1.00, // est
+    description: 'Biskopty z galareką pomaraṅczowa (52%) olewane czekoladą (15%)'
+  },
+  {
+    brand: "Dr Gerard",
+    pricePer: 24, // est
+    allergens: ['Wheat', 'Egg', 'Milk', 'Soybeans'],
+    mayContain: ['Peanuts', 'Sesame', 'other nuts'],
+    description: 'Biszkopty z nadzieniem o smaku morelowym w polewie kakaowej',
+    price: 1.59,
+    image: 'https://i.imgur.com/9ei6Qrem.png'
+  },
+
 ]
 
 var Sample = module.exports = mongoose.model('Sample', schema)
