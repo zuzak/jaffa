@@ -30,12 +30,12 @@ block content
         tbody
           for score in scores
             tr
-            td.numeric= score.sponge
-            td.numeric= score.orange
-            td.numeric= score.chocolate
-            td.numeric= score.overall
-            td= score.mcVities ? 'Yes' : 'No'
-            td= score.wouldBuy ? 'Yes' : 'No'
+              td.numeric= score.sponge
+              td.numeric= score.orange
+              td.numeric= score.chocolate
+              td.numeric= score.overall
+              td= score.mcVities ? 'Yes' : 'No'
+              td= score.wouldBuy ? 'Yes' : 'No'
           else
             tr
               td(colspan="6") Nobody has scored the #{sample.brand} jaffa cakes yet.

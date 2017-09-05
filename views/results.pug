@@ -6,33 +6,40 @@ block breadcrumbs
 block content
   .grid-row
     h1.heading-xlarge Results
-    a(href='/results.csv') Download raw scores as CSV
+    p The table headings are sortable. Feel free to&nbsp;
+        a(href='/results.csv') download raw scores as CSV
+        span &nbsp; and make some pretty graphs.
     table.sortable
       thead
         tr
-          th(colspan="2") Sample
-          // th(colspan="4") Your scores
-          th(colspan="4") Average scores
-          th(colspan="2") Price
-        tr
           th Identifier
           th Brand
-          // th Sponge
-          // th Orange
-          // th Choc'
-          // th Overall
-          th Sponge
-          th Orange
-          th Choc'
-          th Overall
-          th Perceived
-          th Actual
+          th Your sponge score
+          th Your orange score
+          th Your chocolate score
+          th Your overall score
+          th Average sponge score
+          th Average orange score
+          th Average chocolate score
+          th Average overall score
+          th Average perceived price
+          th Actual price
       tbody
         for sample in samples
           if aggrScores[sample.sampleIdentifier]
             tr
               td: a(href="/sample/" + sample.sampleIdentifier + "/info").samplelink= sample.sampleIdentifier
               td= sample.brand
+              if userScores[sample.sampleIdentifier]
+                td.numeric= userScores[sample.sampleIdentifier].sponge
+                td.numeric= userScores[sample.sampleIdentifier].orange
+                td.numeric= userScores[sample.sampleIdentifier].chocolate
+                td.numeric= userScores[sample.sampleIdentifier].overall
+              else
+                td.numeric &ndash;
+                td.numeric &ndash;
+                td.numeric &ndash;
+                td.numeric &ndash;
               td.numeric= aggrScores[sample.sampleIdentifier].sponge
               td.numeric= aggrScores[sample.sampleIdentifier].orange
               td.numeric= aggrScores[sample.sampleIdentifier].chocolate
