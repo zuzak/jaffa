@@ -18,13 +18,13 @@ var jaffaCakes = [ // these aren't the order they are in the app
     description: 'Sponge base with an orange flavoured filling and a plain chocolate topping',
     price: 0.89,
     pricePer: 24,
-    allergens: [ "Soya", "Egg", "Wheat"],
-    mayContain: [ "Nuts", "Milk" ],
+    allergens: [ 'Soya', 'Egg', 'Wheat'],
+    mayContain: [ 'Nuts', 'Milk' ],
     image: 'https://i.imgur.com/knmRDCtm.png'
   },
   {
-    brand: "Lidl",
-    description: "Mini sponge cakes with 55% orange flavoured jelly centre, topped with 17% dark chocolate",
+    brand: 'Lidl',
+    description: 'Mini sponge cakes with 55% orange flavoured jelly centre, topped with 17% dark chocolate',
     price: 0.89,
     pricePer: 24,
     allergens: [ 'Wheat', 'Egg  ', 'Soya', 'Milk'],
@@ -96,7 +96,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
   },
   {
     brand: 'Tango',
-    price:  0.89,
+    price: 0.89,
     pricePer: 24,
     description: 'Sponge cakes with a tangy orange filling topped with real chocolate',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
@@ -149,7 +149,7 @@ var jaffaCakes = [ // these aren't the order they are in the app
     image: 'https://i.imgur.com/EwAqBxWm.jpg'
   },
   {
-    brand: "Milka",
+    brand: 'Milka',
     pricePer: 12,
     allergens: ['Wheat', 'Eggs', 'Milk', 'Hazelnuts' ],
     mayContain: [ 'Other Nuts' ],
@@ -166,14 +166,14 @@ var jaffaCakes = [ // these aren't the order they are in the app
     description: 'Biskopty z galareką pomaraṅczowa (52%) olewane czekoladą (15%)'
   },
   {
-    brand: "Dr Gerard",
+    brand: 'Dr Gerard',
     pricePer: 24, // est
     allergens: ['Wheat', 'Egg', 'Milk', 'Soybeans'],
     mayContain: ['Peanuts', 'Sesame', 'other nuts'],
     description: 'Biszkopty z nadzieniem o smaku morelowym w polewie kakaowej',
     price: 1.59,
     image: 'https://i.imgur.com/9ei6Qrem.png'
-  },
+  }
 
 ]
 
@@ -183,14 +183,14 @@ Sample.find({}, function (err, response) {
   if (err) throw err
   // if (response.length < jaffaCakes.length) {
     // jaffaCakes = shuffle(jaffaCakes)
-    for (var i = 0; i < jaffaCakes.length; i++) {
-      var c = jaffaCakes[i]
-        //c.sampleIdentifier = String.fromCharCode(65 + i) // 64 == 'A'
-      Sample.update({
-        brand: c.brand
-      }, c, {upsert: true}, function (err) {
-        if (err) throw err
-      })
-    }
+  for (var i = 0; i < jaffaCakes.length; i++) {
+    var c = jaffaCakes[i]
+        // c.sampleIdentifier = String.fromCharCode(65 + i) // 64 == 'A'
+    Sample.update({
+      brand: c.brand
+    }, c, {upsert: true}, function (err) {
+      if (err) throw err
+    })
+  }
  // }
 })

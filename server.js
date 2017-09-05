@@ -3,7 +3,6 @@ var path = require('path') // core
 var sass = require('node-sass-middleware')
 var app = module.exports = express()
 
-
 var session = require('express-session')
 var MongoStore = require('connect-mongo')(session)
 
@@ -26,7 +25,7 @@ app.use(require('body-parser')())
 
 var sessionOptions = {
   cookie: {
-    expires: new Date().setDate(new Date().getFullYear() +1),
+    expires: new Date().setDate(new Date().getFullYear() + 1),
     name: 'jaffa.sid'
   }
 }
@@ -34,7 +33,7 @@ sessionOptions.secret = process.env.SECRET || 'SY7cWepPeY8Bvbtz'
 if (process.env.NODE_ENV === 'production') {
   sessionOptions.cookie.secure = true
   if (sessionOptions.secret === 'SY7cWepPeY8Bvbtz') {
-    throw new Error("Set SECRET environment variable in production!")
+    throw new Error('Set SECRET environment variable in production!')
   }
 }
 
