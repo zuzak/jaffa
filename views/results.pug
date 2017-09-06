@@ -40,10 +40,10 @@ block content
                 td.numeric &ndash;
                 td.numeric &ndash;
                 td.numeric &ndash;
-              td.numeric= aggrScores[sample.sampleIdentifier].sponge
-              td.numeric= aggrScores[sample.sampleIdentifier].orange
-              td.numeric= aggrScores[sample.sampleIdentifier].chocolate
-              td.numeric= aggrScores[sample.sampleIdentifier].overall
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].sponge)
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].orange)
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].chocolate)
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].overall)
               td.numeric= '£' + ((aggrScores[sample.sampleIdentifier].price / sample.pricePer)*12).toFixed(2)
               td.numeric= '£' + ((sample.price / sample.pricePer) * 12).toFixed(2)
 
