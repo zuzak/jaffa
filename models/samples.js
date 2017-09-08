@@ -9,7 +9,8 @@ var schema = new mongoose.Schema({
   allergens: Array,
   mayContain: Array,
   description: String,
-  image: String
+  image: String,
+  vegetarian: Boolean
 })
 
 var jaffaCakes = [ // these aren't the order they are in the app
@@ -20,7 +21,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 24,
     allergens: [ 'Soya', 'Egg', 'Wheat'],
     mayContain: [ 'Nuts', 'Milk' ],
-    image: 'https://i.imgur.com/knmRDCtm.png'
+    image: 'https://i.imgur.com/knmRDCtm.png',
+    vegetarian: true
   },
   {
     brand: 'Lidl',
@@ -29,7 +31,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 24,
     allergens: [ 'Wheat', 'Egg  ', 'Soya', 'Milk'],
     mayContain: [],
-    image: 'https://i.imgur.com/xr8Ibdjm.png'
+    image: 'https://i.imgur.com/xr8Ibdjm.png',
+    vegetarian: true
   },
   {
     brand: 'Tesco',
@@ -38,7 +41,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 24,
     allergens: [ 'Wheat', 'Egg', 'Soya'],
     image: 'https://i.imgur.com/xFvSfFbm.jpg',
-    mayContain: ['Milk']
+    mayContain: ['Milk'],
+    vegetarian: true
   },
   {
     brand: 'McVitie\'s',
@@ -47,7 +51,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 24,
     allergens: ['Milk', 'Soya', 'Wheat', 'Egg'],
     mayContain: [],
-    image: 'https://i.imgur.com/keBmXog.jpg'
+    image: 'https://i.imgur.com/keBmXog.jpg',
+    vegetarian: true
   },
   {
     brand: 'Morrisons',
@@ -56,7 +61,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 24,
     allergens: ['Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk', 'Nuts'],
-    image: 'https://i.imgur.com/Px0jJo9m.png'
+    image: 'https://i.imgur.com/Px0jJo9m.png',
+    vegetarian: true
   },
   {
     brand: 'M&S',
@@ -65,7 +71,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 11, // eleven(!)
     allergens: ['Milk', 'Wheat', 'Egg', 'Soya'],
     mayContain: ['Nuts'],
-    image: 'https://i.imgur.com/mWeLQosm.png'
+    image: 'https://i.imgur.com/mWeLQosm.png',
+    vegetarian: true
   },
   {
     brand: 'Morrisons Savers',
@@ -74,7 +81,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     mayContain: ['Milk', 'Nuts'],
     price: 0.38,
     pricePer: 12,
-    image: 'https://i.imgur.com/fZPmdGK.jpg'
+    image: 'https://i.imgur.com/fZPmdGK.jpg',
+    vegetarian: true
   },
   {
     brand: 'Bahlsen Messino',
@@ -92,7 +100,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     description: 'Sponge base with an orange flavoured centre half coated in plain chocolate',
     allergens: [ 'Wheat', 'Egg', 'Soya'],
     mayContain: [ 'Milk'],
-    image: 'https://i.imgur.com/fW4pjbc.jpg'
+    image: 'https://i.imgur.com/fW4pjbc.jpg',
+    vegetarian: true
   },
   {
     brand: 'Tango',
@@ -101,7 +110,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     description: 'Sponge cakes with a tangy orange filling topped with real chocolate',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
     mayContain: ['Nuts', 'Milk'],
-    image: 'https://i.imgur.com/sYWLiuJm.jpg'
+    image: 'https://i.imgur.com/sYWLiuJm.jpg',
+    vegetarian: true
   },
   {
     brand: 'Asda Smart Price',
@@ -110,7 +120,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     description: 'Sponge cakes with an orange-flavoured filling, topped with dark chocolate',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
     mayContain: [ 'Milk' ],
-    image: 'https://i.imgur.com/MdzWFnqm.jpg'
+    image: 'https://i.imgur.com/MdzWFnqm.jpg',
+    vegetarian: true
   },
   {
     brand: 'Sainsbury\'s',
@@ -119,7 +130,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     description: 'Dark chocolate topped sponge cakes with orange flavoured filling',
     allergens: [ 'Soya', 'Wheat', 'Egg'],
     mayContain: [ 'Milk' ],
-    image: 'https://i.imgur.com/39xBf32m.png'
+    image: 'https://i.imgur.com/39xBf32m.png',
+    vegetarian: true
   },
   {
     brand: 'Asda',
@@ -128,7 +140,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     pricePer: 12,
     allergens: [ 'Soya', 'Wheat', 'Egg'],
     mayContain: ['Milk'],
-    image: 'https://i.imgur.com/CStg7rSm.jpg'
+    image: 'https://i.imgur.com/CStg7rSm.jpg',
+    vegetarian: true
   },
   {
     brand: 'Sainsbury\'s Basics',
@@ -137,7 +150,8 @@ var jaffaCakes = [ // these aren't the order they are in the app
     mayContain: ['Milk'],
     price: 0.60,
     description: 'Sponge cakes with an orange flavoured centre half coated in dark chocolate',
-    image: 'https://i.imgur.com/qXMwSfgm.png'
+    image: 'https://i.imgur.com/qXMwSfgm.png',
+    vegetarian: true
   },
   {
     brand: 'Newsagents\'',
