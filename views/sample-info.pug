@@ -33,7 +33,10 @@ block content
               td.numeric= score.orange
               td.numeric= score.chocolate
               td.numeric= score.overall
-              td.numeric= '£' + (score.price).toFixed(2)
+              if score.price
+                td.numeric= '£' + (score.price).toFixed(2)
+              else
+                td.numeric &ndash;
           else
             tr
               td(colspan="6") Nobody has scored the #{sample.brand} jaffa cakes yet.
