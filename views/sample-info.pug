@@ -25,8 +25,7 @@ block content
           th Orange
           th Chocolate
           th Overall
-          th McVitie's?
-          th Buy Again?
+          th Price
         tbody
           for score in scores
             tr
@@ -34,8 +33,7 @@ block content
               td.numeric= score.orange
               td.numeric= score.chocolate
               td.numeric= score.overall
-              td= score.mcVities
-              td= score.wouldBuy
+              td.numeric= '£' + (score.price).toFixed(2)
           else
             tr
               td(colspan="6") Nobody has scored the #{sample.brand} jaffa cakes yet.
