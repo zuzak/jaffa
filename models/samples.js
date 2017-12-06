@@ -192,19 +192,3 @@ var jaffaCakes = [ // these aren't the order they are in the app
 ]
 
 var Sample = module.exports = mongoose.model('Sample', schema)
-
-Sample.find({}, function (err, response) {
-  if (err) throw err
-  // if (response.length < jaffaCakes.length) {
-    // jaffaCakes = shuffle(jaffaCakes)
-  for (var i = 0; i < jaffaCakes.length; i++) {
-    var c = jaffaCakes[i]
-        // c.sampleIdentifier = String.fromCharCode(65 + i) // 64 == 'A'
-    Sample.update({
-      brand: c.brand
-    }, c, {upsert: true}, function (err) {
-      if (err) throw err
-    })
-  }
- // }
-})
