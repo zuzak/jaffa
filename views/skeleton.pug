@@ -6,6 +6,7 @@ html
       title GOV.ZK
     block css
       link(rel='stylesheet', href='/index.css')
+      script(src='/govuk/show-hide-content.js')
   body
     if req && req.get('DNT') !== '1'
       if req.user

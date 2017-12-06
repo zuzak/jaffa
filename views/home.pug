@@ -25,36 +25,36 @@ block content
               .data-item.bold-xlarge= samples.length
               .data-item.bold-xsmall samples
   .grid-row
-      h2.heading-large Voting
-      p Please select the sample you wish to score next:
-      .samplelist
+    h2.heading-large Voting
+    p Please select the sample you wish to score next:
+    .samplelist
+      for sample in samples
+        if !scores[sample.sampleIdentifier]
+          li: a(href='/sample/' + sample.sampleIdentifier)= sample.sampleIdentifier
+    h2.heading-large Your scores
+    p Here are the scores you have given to samples so far:
+    table.sortable.column-two-thirds
+      thead
+        th Sample
+        th.numeric Sponge
+        th.numeric Orange
+        th.numeric Chocolate
+        th.numeric Overall
+      tbody
         for sample in samples
-          if !scores[sample.sampleIdentifier]
-            li: a(href='/sample/' + sample.sampleIdentifier)= sample.sampleIdentifier
-      h2.heading-large Your scores
-      p Here are the scores you have given to samples so far:
-      table.sortable.column-two-thirds
-        thead
-          th Sample
-          th.numeric Sponge
-          th.numeric Orange
-          th.numeric Chocolate
-          th.numeric Overall
-        tbody
-          for sample in samples
-            tr
-              if !scores[sample.sampleIdentifier]
-                - i++
-                td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
-                td(colspan="7").pending
-                  span Waiting for you to&nbsp;
-                  a(href="/sample/"+sample.sampleIdentifier) record results for sample #{sample.sampleIdentifier}
-              else
-                td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
-                td.numeric= scores[sample.sampleIdentifier].sponge
-                td.numeric= scores[sample.sampleIdentifier].orange
-                td.numeric= scores[sample.sampleIdentifier].chocolate
-                td.numeric= scores[sample.sampleIdentifier].overall
+          tr
+            if !scores[sample.sampleIdentifier]
+              - i++
+              td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
+              td(colspan="7").pending
+                span Waiting for you to&nbsp;
+                a(href="/sample/"+sample.sampleIdentifier) record results for sample #{sample.sampleIdentifier}
+            else
+              td: a(href="/sample/"+sample.sampleIdentifier).samplelink= sample.sampleIdentifier
+              td.numeric= scores[sample.sampleIdentifier].sponge
+              td.numeric= scores[sample.sampleIdentifier].orange
+              td.numeric= scores[sample.sampleIdentifier].chocolate
+              td.numeric= scores[sample.sampleIdentifier].overall
   .grid-row
     h3.heading-small Results
     p.font-small

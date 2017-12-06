@@ -1,0 +1,27 @@
+extends skeleton
+block breadcrumbs
+    .grid-row
+        .column-two-thirds
+            form(method="POST")
+                .form-group
+                    fieldset
+                        legend
+                            h2.heading-large Is the sample you want to add one of these?
+                        for sample, i in samples
+                            .multiple-choice
+                                input(type="radio", id='mc' + i, value="true", name="duplicate", required)
+                                label(for='mc'+i)
+                                    div
+                                        strong= sample.purchaseLocation
+                                        span &nbsp;
+                                        span= sample.brand
+                                    div.text-secondary.font-xsmall= sample.description
+                        p.form-block or
+                            .multiple-choice
+                                input(type="radio", id='mc' + i, value="false", name="duplicate", required)
+                                label(for='mc' + i)
+                                    strong No
+                                    span , it's not listed
+
+                    p
+                    p: input(type='submit', value="Continue").button

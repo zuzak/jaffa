@@ -1,0 +1,14 @@
+extends skeleton
+block content
+    .column-two-thirds
+        .govuk-box-highlight
+            h1.heading-large Sample recorded
+
+            p
+                span Please bring your mince pies to the Hub by &nbsp;
+                strong Monday morning
+                span .
+        if duplicate
+            p Someone has already entered the details of these mince pies, so you didn't need to add any more information.
+
+        p: a.link-back(href='/') Back to home
