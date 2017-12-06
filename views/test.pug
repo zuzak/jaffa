@@ -1,0 +1,57 @@
+extends skeleton
+block breadcrumbs
+block content
+    .grid-row
+        .column-two-thirds
+            h1.heading-large Add a sample
+            h2.heading-medium Basic information
+            .form-group
+                label.form-label(for="shop")
+                    span Purchase location
+                    span.form-hint For example, "Lidl"
+                input.form-control(name="shop")#shop
+            .form-group
+                label.form-label(for="brand")
+                    span Brand
+                    span.form-hint For example, "Tesco Value"
+                input.form-control(name="brand")#brand
+            .form-group
+                label.form-label(for="number")
+                    span Number per pack
+                input.form-control(type="numeric", name="number")#brand
+            .form-group
+                label.form-label(for="price")
+                    span Price per pack
+                    span.form-hint This is the price after any special offers
+                span £
+                input.form-control(type="number", name="price", placeholder="0.99", step="0.01", min="0", max="10")#brand
+            h2.heading-medium Is this sample vegetarian?
+            .form-group
+                fieldset
+                    .multiple-choice
+                        input#veg1(type="radio", value="true", required).formcontrol
+                        label(for="veg1") Yes, it is suitable for vegetarians
+                    .multiple-choice
+                        input#veg2(type="radio", value="false", required).formcontrol
+                        label(for="veg2") No, it is not suitable for vegetarians
+                    .multiple-choice
+                        input#veg3(type="radio", value="false", required).formcontrol
+                        label(for="veg3") I am not sure
+
+            h2.heading-medium Does it contain alcohol?
+            .form-group
+                fieldset.inline
+                    .multiple-choice
+                        input#alc1(type="radio", value="true", required).formcontrol
+                        label(for="alc1") Yes
+                    .multiple-choice
+                        input#alc2(type="radio", value="false", required).formcontrol
+                        label(for="alc2") No
+            form(method="POST")
+                .form-group
+                    fieldset
+                        .multiple-choice
+                            input#promise(name="promise", type="checkbox", value="promise", required).form-control
+                            label(for="promise") I promise not to be a spoilsport
+                .form-group
+                    input(type="submit", value="Begin ballot").button-get-started.button
