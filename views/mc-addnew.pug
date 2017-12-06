@@ -2,7 +2,7 @@ extends skeleton
 block breadcrumbs
 block content
     .grid-row
-        .column-two-thirds
+        form(method="POST").column-two-thirds
             h1.heading-large Add a sample
             h2.heading-medium Basic information
             .form-group
@@ -31,6 +31,9 @@ block content
                     .multiple-choice
                         input#veg1(type="radio", value="true", required).formcontrol
                         label(for="veg1") Yes, it is suitable for vegetarians
+                    .panel.panel-border-narrow.js-hidden#is-vegan
+                        input#vegan(type="checkbox", value="true", required).formcontrol
+                        label(for="vegan") It is vegan
                     .multiple-choice
                         input#veg2(type="radio", value="false", required).formcontrol
                         label(for="veg2") No, it is not suitable for vegetarians
@@ -47,11 +50,20 @@ block content
                     .multiple-choice
                         input#alc2(type="radio", value="false", required).formcontrol
                         label(for="alc2") No
-            form(method="POST")
                 .form-group
-                    fieldset
-                        .multiple-choice
-                            input#promise(name="promise", type="checkbox", value="promise", required).form-control
-                            label(for="promise") I promise not to be a spoilsport
-                .form-group
-                    input(type="submit", value="Begin ballot").button-get-started.button
+                    input(type="submit", value="Save and continue").button
+            h2.heading-medium Is it a ‘standard’ mince pie?
+            p Is it a Mr Kipling style mince pie, with shortcrust (non-iced) sides and tops, with no odd flavours and costing less than £2 for six?
+            .form-group
+                fieldset
+                    .multiple-choice
+                        input#veg1(type="radio", value="true", required).formcontrol
+                        label(for="veg1") Yes, it's a ‘standard’ mince pie
+                    .multiple-choice
+                        input#veg2(type="radio", value="false", required,data-target='premium-confirmation').formcontrol
+                        label(for="veg2") No, it's a ‘premium’ or otherwise different mince pie
+                    .panel.panel-border-narrow.js-hidden#premium-confirmation
+                        p We'll mark this mince pie as special and not include it in the main taste test
+                    .multiple-choice
+                        input#veg3(type="radio", value="false", required).formcontrol
+                        label(for="veg3") I am not sure

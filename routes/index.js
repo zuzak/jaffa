@@ -9,6 +9,7 @@
 
 require('./misc.js')
 require('./cakes.js')
+require('./pies.js')
 
 // this must be last:
 require('./errors.js')
