@@ -8,8 +8,7 @@
 // interstitials
 
 require('./misc.js')
-require('./cakes.js')
 require('./pies.js')
-
+require('./cakes.js')
 // this must be last:
 require('./errors.js')

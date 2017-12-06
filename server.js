@@ -20,6 +20,7 @@ app.use(sass({
 }))
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/', express.static(path.join(__dirname, 'node_modules', 'govuk_frontend_toolkit', 'images')))
+app.use('/', express.static(path.join(__dirname, 'node_modules', 'govuk_frontend_toolkit', 'javascripts')))
 
 app.use(require('body-parser')())
 

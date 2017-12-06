@@ -131,7 +131,7 @@ app.post('/lockout', function (req, res, next) {
 app.get('/results', function (req, res, next) {
   User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
-    if (response.length === 0) return res.redirect('/')
+    // if (response.length === 0) return res.redirect('/')
     Sample.find(function (err, samples) {
       if (err) return next(err)
       Score.aggregate([{

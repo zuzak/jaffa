@@ -2,14 +2,13 @@ var mongoose = require('mongoose')
 
 var schema = new mongoose.Schema({
   purchaseLocation: String,
-  name: String,
-  numberInPack: Number,
-  priceForPack: Number,
-  sampleIdentifier: {type: String, index: {unique: true}},
+  brand: String,
   description: String,
-  image: String,
-  vegetarian: Boolean,
-  containsAlcohol: Boolean
+    numberPerPack: Number,
+    pricePerPack: Number,
+    isVegetarian: Boolean,
+    hasAlcohol: Boolean,
+    isStandard: Boolean
 })
 
-module.exports = mongoose.model('Sample', schema)
+module.exports = mongoose.model('MincePie', schema)

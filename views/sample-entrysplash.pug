@@ -1,0 +1,46 @@
+extends skel2
+block css
+    link(rel="stylesheet",href="home.css")
+    script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
+block breadcrumbs
+block conten
+    .grid-row
+        .column-full
+            h2.heading-medium Sample list
+            .panel.panel-border-wide
+                p
+                    span The mince pie taste test takes place on
+                    strong &nbsp;Monday, 11 December 2017
+                    span .
+    .grid-row
+        .column-two-thirds
+            - wanted = [ 'Spar', 'Nisa', 'Londis', 'Iceland', 'IKEA', 'Aldi', 'Morrisons', 'Home Bargains', 'Lidl', 'Asda', 'Sainsbury', 'Tesco', 'Poundland' ]
+            - wanted.sort()
+            h2.heading-small Samples we have
+            table
+                tbody
+                    for sample in samples
+                        - wanted.splice(wanted.indexOf(sample.purchaseLocation), 1)
+                        tr
+                            td= sample.purchaseLocation
+                            td= sample.brand
+                    else
+                        td(colspan="2").text-secondary No samples have been entered yet.
+        .column-one-third
+            h2.heading-small Samples we do not have
+            table
+                tbody
+                    for want in wanted
+                        tr: td= want
+                    else
+                        tr.text-secondary None
+    .grid-row: p
+    .grid-row
+        .column-two-thirds
+            p If you have bought some more mince pies for the taste test, you can:
+            p: a.button.button-start(href='/check-for-duplicate',role='button') Add another sample
+    .grid-row
+        .column-two-thirds
+            span You can also view the&nbsp;
+            a(href='/jaffa-results').link Jaffa cake results
+            span &nbsp;from last time.

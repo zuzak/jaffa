@@ -1,0 +1,14 @@
+extends skeleton
+block breadcrumbs
+block content
+    .hero
+        .grid-row
+            .column-two-thirds
+                .fortune-outer
+                    h1.heading-xlarge Mince Pie Extravaganza
+                    if fortune
+                        p.font-small.fortune #{String(fortune).replace(/--/g,'—')}
+                    else
+                        p.font-small.fortune Hello!
+    .grid-row
+        block conten
