@@ -25,9 +25,11 @@ block conten
                     td
                         a(href='/vote/'+sample.sampleIdentifier).button Score sample #{sample.sampleIdentifier}
                     td.font-xsmall
-                        if sample.isVegetarian === true
+                        if sample.isVegan === true
+                            abbr(title="Suitable for vegans") Vegan
+                        else if sample.isVegetarian === true
                             abbr(title="Suitable for vegetarians") Vegetarian
-                        if sample.isVegetarian === false
+                        else if sample.isVegetarian === false
                             abbr(title="Not suitable for vegetarians") Non-veg.
                         br
                         if sample.hasAlcohol

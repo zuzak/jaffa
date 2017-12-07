@@ -7,6 +7,7 @@ var schema = new mongoose.Schema({
   numberPerPack: Number,
   pricePerPack: Number,
   isVegetarian: Boolean,
+  isVegan: Boolean,
   hasAlcohol: Boolean,
   isStandard: Boolean,
     sampleIdentifier: String
