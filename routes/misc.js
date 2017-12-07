@@ -20,6 +20,3 @@ app.get('/', function (req, res, next) {
   })
 })
 
-app.get('/test', function (req, res, next) {
-  res.render('test.pug')
-})

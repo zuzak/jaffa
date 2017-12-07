@@ -1,0 +1,45 @@
+extends skeleton
+block breadcrumb
+    li: a(href='/sample-admin') Sample Identifiers
+    li= sample.brand
+block content
+    .grid-row
+        .column-full
+            if sample.sampleIdentifier
+                .govuk-box-highlight
+                    span= sample.brand
+                    h1.heading-xlarge Sample #{sample.sampleIdentifier}
+            else
+                .govuk-box-highlight-grey
+                    h1.heading-xxlarge ∞
+                    span This sample has not been given a letter yet.
+    if sample.isStandard === false
+        .grid-row
+            .column-full
+                .govuk-box-highlight-alt
+                    div.bold-medium Non-standard sample
+                    span This sample is special in some way and should be kept separate from the others
+    .grid-row
+        .column-half
+            if sample.isVegetarian === false
+                .govuk-box-highlight-red
+                    h2.heading-medium Not suitable for vegetarians
+            else if sample.isVegetarian === true
+                .govuk-box-highlight-green
+                     h2.heading-medium Suitable for vegetarians
+            else
+                .govuk-box-highlight-grey
+                    h2.heading-medium Vegetarian suitability not known
+        .column-half
+            if sample.hasAlcohol === true
+                .govuk-box-highlight-red
+                    h2.heading-medium Contains alcohol
+            else if sample.hasAlcohol === false
+                .govuk-box-highlight-green
+                    h2.heading-medium No alcohol
+            else
+                .govuk-box-highlight-grey
+                    h2.heading-medium Alcohol content not known
+    .grid-row
+        .column-two-thirds
+            a(href='/sample-admin').link-back Back to other samples

@@ -1,0 +1,34 @@
+extends skel2
+block conten
+    h2.heading-large Voting
+    p Please select the sample you wish to score next.
+
+
+    table
+        thead
+            tr
+                th Identifier
+                th Pastry
+                th Mincemeat
+                th Overall
+                th Price
+                th
+                th
+        tbody
+            for sample in samples
+                tr
+                    td.font-large= sample.sampleIdentifier
+                    td.numeric.font-medium 12
+                    td.numeric.font-medium 34
+                    td.numeric.font-medium 56
+                    td.numeric.font-medium £0.78
+                    td
+                        a(href='/vote/'+sample.sampleIdentifier).button Score sample #{sample.sampleIdentifier}
+                    td.font-xsmall
+                        if sample.isVegetarian === true
+                            abbr(title="Suitable for vegetarians") Vegetarian
+                        if sample.isVegetarian === false
+                            abbr(title="Not suitable for vegetarians") Non-veg.
+                        br
+                        if sample.hasAlcohol
+                            abbr(title="Contains alcohol") Alcoholic

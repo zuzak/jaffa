@@ -118,3 +118,31 @@ blockquote:after {
 table.sortable th {
 	cursor: pointer;
 }
+.heading-xxlarge {
+	@extend .heading-xlarge;
+	font-size: 96px !important;
+	margin-bottom: 0.25em;
+}
+
+.govuk-box-highlight {
+	background-color: $purple;
+}
+
+.govuk-box-highlight-red {
+	@extend .govuk-box-highlight;
+	background-color: $red;
+}
+
+.govuk-box-highlight-green {
+	@extend .govuk-box-highlight;
+	background-color: $green;
+}
+
+.govuk-box-highlight-grey {
+	@extend .govuk-box-highlight;
+	background-color: $mauve;
+}
+.govuk-box-highlight-alt {
+	@extend .govuk-box-highlight;
+	background-color: $light-blue;
+}

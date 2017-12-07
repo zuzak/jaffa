@@ -1,0 +1,21 @@
+extends skeleton
+block breadcrumb
+    li Sample Identifiers
+block content
+    h1.heading-large Sample Identifiers
+    p Here is a list of the samples we have.
+    table
+        thead
+            tr
+                th Purchase location
+                th Sample
+                th
+        tbody
+            for sample in samples
+                tr
+                    td= sample.purchaseLocation
+                    td
+                        span= sample.brand
+                        div.text-secondary.font-xsmall= sample.description
+                    td
+                        a(href='/sample-admin/'+sample._id).button Show letter

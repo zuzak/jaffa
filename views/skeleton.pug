@@ -60,8 +60,13 @@ html
       .footer
         block footer
           .grid-row
-            .column-full
-              p
-                span(lang="fr") Qu'ils mangent de le gâteau
-                //
-                  a(href="//github.com/zuzak/jaffa") Source code
+            .column-one-third
+              span(lang="fr") Qu'ils mangent de le gâteau
+
+            .column-one-half
+              a(href="//github.com/zuzak/jaffa") Source code
+              a(href='//github.com/zuzak/jaffa/issues') Report an issue
+              if votingOpen !== undefined && votingOpen === false
+                a(href='/close-submissions') Assign letters
+              else
+                a(href='/sample-admin') View letters
