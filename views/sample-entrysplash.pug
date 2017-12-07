@@ -20,7 +20,9 @@ block conten
             table
                 tbody
                     for sample in samples
-                        - wanted.splice(wanted.indexOf(sample.purchaseLocation), 1)
+                        - var index = wanted.indexOf(sample.purchaseLocation)
+                        if index > -1
+                          - wanted.splice(wanted.indexOf(sample.purchaseLocation), 1)
                         tr
                             td= sample.purchaseLocation
                             td= sample.brand
