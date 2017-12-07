@@ -1,10 +1,10 @@
 $path: "/";
-$toolkit-font-stack: "Varela";
+$toolkit-font-stack: "Fira Sans";
 $accent-color: #4b92db;
 $accent-color: #843B68;
 $accent-color: #FE9702;
 
-@import 'https://fonts.googleapis.com/css?family=Varela';
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,700&subset=greek');
 
 @import 'govuk-elements';
 @import '_conditionals';
