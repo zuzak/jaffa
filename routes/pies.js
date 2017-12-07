@@ -24,15 +24,23 @@ app.post('/add-a-pie', function (req, res, next) {
     }
   console.log('aa', req.body)
     if (req.body.isVegetarian === 'null') req.body.isVegetarian = null
+    if (req.body.isVegetarian === 'vegan') {
+        req.body.isVegan = true
+        req.body.isVegetarian = true
+    } else {
+        req.body.isVegan = false
+    }
     MincePie.update({
         brand: req.body.brand,
         purchaseLocation: req.body.purchaseLocation
     }, {
       brand: req.body.brand,
         purchaseLocation: req.body.purchaseLocation,
+        flavourText: req.body.flavourText,
         description: req.body.description,
         numberPerPack: req.body.numberPerPack,
         pricePerPack: req.body.pricePerPack,
+        isVegan: req.body.isVegan,
         isVegetarian: req.body.isVegetarian,
         hasAlcohol: req.body.hasAlcohol,
         isStandard: req.body.isStandard
@@ -153,5 +161,33 @@ app.get('/sample-admin/:id', function (req, res, next) {
         if (response === undefined) return next()
         if (response.count > 1) throw new Error('duplicates')
         res.render('sample-admin-detail.pug', {sample: response[0]})
+    })
+})
+
+app.get('/vote/:sample', function (req, res, next) {
+    MincePie.find({sampleIdentifier: req.params.sample}, function (err, sample) {
+        if (err) return next(err)
+        //Score.find({sampleIdentifier: req.params.sample, user: req.sessionID}, function (err, prevAns) {
+        //    if (err) return next(err)
+        //    if (prevAns.length > 0) {
+        //        res.render('mc-votingpage.pug', {sample: sample[0], prev: prevAns[0]})
+        //    } else {
+                res.render('mc-votingpage.pug', {sample: sample[0], prev: {}})
+        //    }
+        //})
+    })
+})
+
+app.post('/vote/:sample', function (req, res, next) {
+    User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+        if (err) return next(err)
+        if (response.length > 0) return res.status(403).render('403.pug')
+        Score.update({
+            sampleIdentifier: req.params.sample.toUpperCase(),
+            user: req.sessionID
+        }, req.body, {upsert: true}, function (err, update) {
+            if (err) return next(err)
+            res.redirect('/')
+        })
     })
 })

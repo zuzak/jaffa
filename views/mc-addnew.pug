@@ -20,6 +20,11 @@ block content
                     input.form-control(name="brand",required)#brand.form-control-2-3
                 .form-group
                     label.form-label(for="description")
+                        span Flavour text
+                        span.form-hint This is the description on the front of the box (optional)
+                    input.form-control(name="flavourText",placeholder="Instant milkshake that's fun for all the family!")#description.form-control-3-4
+                .form-group
+                    label.form-label(for="description")
                         span Description on label
                         span.form-hint This is the dry description listed just before the ingredients
                     input.form-control(name="description",placeholder="Strawberry flavour powder with added vitamins.")#description.form-control-3-4
@@ -37,10 +42,13 @@ block content
             .form-group
                 fieldset
                     legend
-                        h2.heading-medium Is this sample vegetarian?
+                        h2.heading-medium Is this sample vegan, or vegetarian?
+                    .multiple-choice
+                        input#veg0(type="radio", value="vegan", required, name="isVegetarian").formcontrol
+                        label(for="veg0") Yes, it is suitable for vegans and vegetarians
                     .multiple-choice
                         input#veg1(type="radio", value="true", required, name="isVegetarian").formcontrol
-                        label(for="veg1") Yes, it is suitable for vegetarians
+                        label(for="veg1") Yes, it is suitable for vegetarians (but not vegans)
                     .multiple-choice
                         input#veg2(type="radio", value="false", required, name="isVegetarian").formcontrol
                         label(for="veg2") No, it is not suitable for vegetarians
@@ -71,7 +79,7 @@ block content
                             li it costs more than £2 for six
                         p
                         .panel.panel-border-wide#premium-confirmation
-                            p.form-block.body-text Non-standard mince pies might be scored separately
+                            p.form-block.body-text Non-standard mince pies are numbered separately in the taste test
                     .multiple-choice
                     .multiple-choice
                         input#stand1(type="radio", value="true", required, name="isStandard").formcontrol

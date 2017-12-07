@@ -4,6 +4,7 @@ var schema = new mongoose.Schema({
   purchaseLocation: String,
   brand: String,
   description: String,
+  flavourText: String,
   numberPerPack: Number,
   pricePerPack: Number,
   isVegetarian: Boolean,
