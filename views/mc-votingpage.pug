@@ -1,7 +1,9 @@
 extends skeleton
 block css
     link(rel="stylesheet",href="/index.css")
-block breadcrumbs
+block breadcrumb
+    li Samples
+    li #{sample.sampleIdentifier}
 block content
     h1.heading-large Sample #{sample.sampleIdentifier}
     form.column-two-thirds(method="POST")
@@ -45,7 +47,7 @@ block content
             label.form-label(for="comments")
                 span Comments about sample #{sample.sampleIdentifier}
                 span.form-hint (optional)
-            textarea.form-control(name="comments",value=prev.comments)#comment
+            textarea.form-control(name="comment",)#comment= prev.comment
 
         p &nbsp;
 

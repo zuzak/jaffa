@@ -44,11 +44,18 @@ block conten
                         if sample.hasAlcohol
                             abbr(title="Contains alcohol") Alcoholic
 
-    p You have #{unscored.length} samples left to score.
-    - randomSample = unscored[Math.floor(Math.random() * unscored.length)]
-    p
-        span You could try&nbsp;
-        a(href='/vote/'+randomSample) sample #{randomSample}
-        span &nbsp;next.
+    if unscored.length !== 0
+        if unscored.length === 1
+            p
+                span You have&nbsp;
+                a(href='/vote/'+unscored[0]) a final sample left to score
+                span .
+        else
+            p You have #{unscored.length} samples left to score.
+            - randomSample = unscored[Math.floor(Math.random() * unscored.length)]
+            p
+                span You could try&nbsp;
+                a(href='/vote/'+randomSample) sample #{randomSample}
+                span &nbsp;next.
     form(action='/lockout', method='POST')
         input(type='submit',value='Lock in my answers and view the results').button
