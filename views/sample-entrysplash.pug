@@ -14,7 +14,7 @@ block conten
                     span .
     .grid-row
         .column-two-thirds
-            - wanted = [ 'Co-op', 'Spar', 'Nisa', 'Londis', 'Iceland', 'IKEA', 'Aldi', 'Morrisons', 'Home Bargains', 'Lidl', 'Asda', 'Sainsbury\'s', 'Tesco', 'Poundland', 'B&M', 'Ozmens', 'Waitrose', 'Costco', 'M&S', 'Fultons', 'Wilco\'s', 'Greggs', 'Iceland' ]
+            - wanted = [ 'Co-op', 'Spar', 'Nisa', 'Londis', 'IKEA', 'Home Bargains', 'Poundland', 'B&M', 'Ozmens', 'Waitrose', 'Costco', 'M&S', 'Fultons', 'Wilco\'s', 'Greggs', 'Iceland' ] 
             - wanted.sort()
             h2.heading-small Samples we have
             table
@@ -29,7 +29,7 @@ block conten
                     else
                         td(colspan="2").text-secondary No samples have been entered yet.
         .column-one-third
-            h2.heading-small Places we need samples for
+            h2.heading-small Places we want samples for
             table
                 tbody
                     for want in wanted
