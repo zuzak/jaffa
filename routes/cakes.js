@@ -128,7 +128,7 @@ app.post('/lockout', function (req, res, next) {
     res.redirect('/results')
   })
 })
-app.get('/results', function (req, res, next) {
+app.get('/jaffa-results', function (req, res, next) {
   User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
     // if (response.length === 0) return res.redirect('/')
