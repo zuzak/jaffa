@@ -12,12 +12,12 @@ block content
                 tr
                     th Pastry
                     td
-                        input.form-control.form-control-1-8(required, type="number", min="0", max="100", maxlength="3", size="3", name="sponge", value=prev.pastry)
+                        input.form-control.form-control-1-8(required, type="number", min="0", max="100", maxlength="3", size="3", name="pastry", value=prev.pastry)
                         span &nbsp; out of 100
                 tr
                     td Filling
                     td
-                        input.form-control.form-control-1-8(required, type="number", min="0", max="100",maxlength="3",  size="3", name="orange", value=prev.filling)
+                        input.form-control.form-control-1-8(required, type="number", min="0", max="100",maxlength="3",  size="3", name="filling", value=prev.filling)
                         span &nbsp; out of 100
                 tr
                     td.heading-small Overall score
@@ -28,7 +28,16 @@ block content
             legend
                 h2.heading-medium How much would you pay for #{sample.numberPerPack} of sample #{sample.sampleIdentifier}?
             span.font-medium £
-            input(type="number", min="0", step="0.01", name="price", placeholder="6.99",value=prev.price).form-control-1-4.form-control
+            input(type="number", step="0.01", min="0", max="10", name="price", placeholder="6.99",value=prev.price).form-control-1-4.form-control
+        fieldset.inline
+            legend
+                h2.heading-medium Would you buy sample #{sample.sampleIdentifier}?
+            .multiple-choice
+                input(type="radio", value="true", required, name="wouldBuy",s).formcontrol#buyYes
+                label(for="buyYes") Yes
+            .multiple-choice
+                input(type="radio", value="false", required, name="wouldBuy").formcontrol#buyNo
+                label(for="buyNo") No
 
         fieldset
             legend
@@ -36,7 +45,7 @@ block content
             label.form-label(for="comments")
                 span Comments about sample #{sample.sampleIdentifier}
                 span.form-hint (optional)
-            textarea.form-control(name="comments")#comment
+            textarea.form-control(name="comments",value=prev.comments)#comment
 
         p &nbsp;
 

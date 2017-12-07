@@ -1,7 +1,8 @@
 var app = require('..')
 var MincePie = require('../models/mincepie.js')
+var Score = require('../models/piescore')
 var shuffle = require('array-shuffle')
-
+var User = require('../models/user')
 app.all('*', function (req, res, next) {
     MincePie.find({sampleIdentifier: {$exists: true}}, function (err, samples) {
         res.locals.votingOpen = samples.length > 0
@@ -56,15 +57,35 @@ app.post('/add-a-pie', function (req, res, next) {
 })
 
 
+// app.get('/', function (req, res, next) {
+//
+//   MincePie.find({}, function (err, samples) {
+//       console.log(err, samples)
+//       if (err) return next(err)
+//       res.render('mc-voting.pug', {samples})
+//   })
+// })
+
 app.get('/', function (req, res, next) {
     if (!res.locals.votingOpen) {
         return next()
     }
-  MincePie.find({}, function (err, samples) {
-      console.log(err, samples)
-      if (err) return next(err)
-      res.render('mc-voting.pug', {samples})
-  })
+    Score.count({}, function (err, count) {
+        if (err) return next(err)
+        Score.find({user: req.sessionID}, function (err, rawScores) {
+            if (err) next(err)
+            var scores = {}
+            for (var i = 0; i < rawScores.length; i++) {
+                var curr = rawScores[i]
+                console.log(curr)
+                scores[curr.sampleIdentifier] = curr
+            }
+            MincePie.find({}, function (err, samples) {
+                if (err) return next(err)
+                res.render('mc-voting.pug', {samples, scores, count})
+            })
+        })
+    })
 })
 
 app.get('/', function (req, res, next) {
@@ -167,14 +188,14 @@ app.get('/sample-admin/:id', function (req, res, next) {
 app.get('/vote/:sample', function (req, res, next) {
     MincePie.find({sampleIdentifier: req.params.sample}, function (err, sample) {
         if (err) return next(err)
-        //Score.find({sampleIdentifier: req.params.sample, user: req.sessionID}, function (err, prevAns) {
-        //    if (err) return next(err)
-        //    if (prevAns.length > 0) {
-        //        res.render('mc-votingpage.pug', {sample: sample[0], prev: prevAns[0]})
-        //    } else {
+        Score.find({sampleIdentifier: req.params.sample, user: req.sessionID}, function (err, prevAns) {
+            if (err) return next(err)
+            if (prevAns.length > 0) {
+                res.render('mc-votingpage.pug', {sample: sample[0], prev: prevAns[0]})
+            } else {
                 res.render('mc-votingpage.pug', {sample: sample[0], prev: {}})
-        //    }
-        //})
+            }
+        })
     })
 })
 
@@ -183,7 +204,7 @@ app.post('/vote/:sample', function (req, res, next) {
         if (err) return next(err)
         if (response.length > 0) return res.status(403).render('403.pug')
         Score.update({
-            sampleIdentifier: req.params.sample.toUpperCase(),
+            sampleIdentifier: req.params.sample,
             user: req.sessionID
         }, req.body, {upsert: true}, function (err, update) {
             if (err) return next(err)

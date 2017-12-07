@@ -2,26 +2,35 @@ extends skel2
 block conten
     h2.heading-large Voting
     p Please select the sample you wish to score next.
-
-
     table
         thead
             tr
-                th Identifier
+                th №
                 th Pastry
                 th Mincemeat
                 th Overall
                 th Price
+                th Buy?
                 th
                 th
         tbody
+            - var unscored = []
             for sample in samples
                 tr
                     td.font-large= sample.sampleIdentifier
-                    td.numeric.font-medium 12
-                    td.numeric.font-medium 34
-                    td.numeric.font-medium 56
-                    td.numeric.font-medium £0.78
+                    if !scores[sample.sampleIdentifier]
+                        - unscored.push(sample.sampleIdentifier)
+                        td(colspan="5").center.text-secondary (You haven't scored sample #{sample.sampleIdentifier} yet)
+                    else
+                        - var score = scores[sample.sampleIdentifier]
+                        td.numeric.font-medium= score.pastry
+                        td.numeric.font-medium= score.filling
+                        td.numeric.font-medium= score.overall
+                        td.numeric.font-medium= score.price.toLocaleString('en-GB', {style: 'currency', currency: 'GBP', minimumFractionDigits: 2})
+                        if score.wouldBuy === 'true'
+                            td.font-medium Yes
+                        else
+                            td.font-medium No
                     td
                         a(href='/vote/'+sample.sampleIdentifier).button Score sample #{sample.sampleIdentifier}
                     td.font-xsmall
@@ -34,3 +43,12 @@ block conten
                         br
                         if sample.hasAlcohol
                             abbr(title="Contains alcohol") Alcoholic
+
+    p You have #{unscored.length} samples left to score.
+    - randomSample = unscored[Math.floor(Math.random() * unscored.length)]
+    p
+        span You could try&nbsp;
+        a(href='/vote/'+randomSample) sample #{randomSample}
+        span &nbsp;next.
+    form(action='/lockout', method='POST')
+        input(type='submit',value='Lock in my answers and view the results').button

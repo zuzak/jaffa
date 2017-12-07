@@ -42,16 +42,17 @@ block content
             .form-group
                 fieldset
                     legend
-                        h2.heading-medium Is this sample vegan, or vegetarian?
-                    .multiple-choice
-                        input#veg0(type="radio", value="vegan", required, name="isVegetarian").formcontrol
-                        label(for="veg0") Yes, it is suitable for vegans and vegetarians
+                        h2.heading-medium Is this sample vegetarian?
+
                     .multiple-choice
                         input#veg1(type="radio", value="true", required, name="isVegetarian").formcontrol
-                        label(for="veg1") Yes, it is suitable for vegetarians (but not vegans)
+                        label(for="veg1") Yes, it is <strong>suitable for vegetarians</strong> (but not vegans)
+                    .multiple-choice
+                        input#veg0(type="radio", value="vegan", required, name="isVegetarian").formcontrol
+                        label(for="veg0") Yes, it is <strong>suitable for vegans</strong> and vegetarians
                     .multiple-choice
                         input#veg2(type="radio", value="false", required, name="isVegetarian").formcontrol
-                        label(for="veg2") No, it is not suitable for vegetarians
+                        label(for="veg2") No, it is <strong>not suitable</strong> for vegetarians
                     .multiple-choice
                         input#veg3(type="radio", value="null", required, name="isVegetarian").formcontrol
                         label(for="veg3") I am not sure
