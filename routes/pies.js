@@ -70,6 +70,17 @@ app.get('/', function (req, res, next) {
     if (!res.locals.votingOpen) {
         return next()
     }
+    User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+        if (err) return next(err)
+        if (response.length > 0) return res.redirect('/results')
+        return next()
+    })
+})
+
+app.get('/', function (req, res, next) {
+    if (!res.locals.votingOpen) {
+        return next()
+    }
     Score.count({}, function (err, count) {
         if (err) return next(err)
         Score.find({user: req.sessionID}, function (err, rawScores) {
@@ -97,6 +108,13 @@ app.get('/', function (req, res, next) {
         console.log(err, samples)
         if (err) return next(err)
         res.render('sample-entrysplash.pug', {samples})
+    })
+})
+
+app.post('/lockout', function (req, res, next) {
+    User.update({user: req.sessionID}, {lockedOut: true}, function (err, response) {
+        if (err) return next(err)
+        res.redirect('/results')
     })
 })
 
@@ -209,6 +227,41 @@ app.post('/vote/:sample', function (req, res, next) {
         }, req.body, {upsert: true}, function (err, update) {
             if (err) return next(err)
             res.redirect('/')
+        })
+    })
+})
+
+app.get('/results', function (req, res, next) {
+    User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+        if (err) return next(err)
+        // if (response.length === 0) return res.redirect('/')
+        MincePie.find(function (err, samples) {
+            if (err) return next(err)
+            Score.aggregate([{
+                $group: {
+                    _id: '$sampleIdentifier',
+                    pastry: { $avg: '$orange' },
+                    filling: { $avg: '$chocolate' },
+                    overall: { $avg: '$sponge' },
+                    price: { $avg: '$price' }
+                }
+            }], function (err, scores) {
+                if (err) return next(err)
+                var aggrScores = {}
+                for (var i = 0; i < scores.length; i++) {
+                    aggrScores[scores[i]._id] = scores[i]
+                }
+
+                Score.find({user: req.sessionID}, function (err, userScores1) {
+                    console.log(err, userScores1)
+                    if (err) return next(err)
+                    var userScores = {}
+                    for (var i = 0; i < userScores1.length; i++) {
+                        userScores[userScores1[i].sampleIdentifier] = userScores1[i]
+                    }
+                    res.render('mc-results.pug', {samples, aggrScores, userScores})
+                })
+            })
         })
     })
 })

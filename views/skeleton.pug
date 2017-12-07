@@ -34,18 +34,8 @@ html
         .grid-row
           .column-two-thirds.font-large
             block header
-              //a.logo(href='/') &#9819; GOV.ZK
-          //-
-            .columns-one-third
-            block login
-              if req
-                if req.user
-                  //-
-                    div.login
-                     span Hello, #{req.user}&nbsp;
-                     a(href=__('/log-out')) #{__(log-out')}
-                else
-                  a.button.login(href=__('/log-in')) #{__('log-in')}
+              a.logo(href='/') &#9819; PIE.NINJA
+
     #content
       block banner
         .accent-bar

@@ -1,0 +1,43 @@
+extends skeleton
+block css
+    link(rel="stylesheet",href="/index.css")
+    script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
+block breadcrumbs
+block content
+    .grid-row
+        h1.heading-xlarge Results
+        p Click the table headings to sort them.
+        table.sortable
+            thead
+                tr
+                    th Identifier
+                    th Brand
+                    th Your pastry score
+                    th Your filling score
+                    th Your overall score
+                    th Average sponge score
+                    th Average orange score
+                    th Average overall score
+                    th Average perceived price
+                    th Actual price
+            tbody
+                for sample in samples
+                    if aggrScores[sample.sampleIdentifier]
+                        tr
+                            td.font-large.center= sample.sampleIdentifier
+                            td= sample.brand
+                            if userScores[sample.sampleIdentifier]
+                                td.numeric= userScores[sample.sampleIdentifier].pastry
+                                td.numeric= userScores[sample.sampleIdentifier].filling
+                                td.numeric= userScores[sample.sampleIdentifier].overall
+                            else
+                                td.numeric &ndash;
+                                td.numeric &ndash;
+                                td.numeric &ndash;
+                            td.numeric= Math.round(aggrScores[sample.sampleIdentifier].pastry)
+                            td.numeric= Math.round(aggrScores[sample.sampleIdentifier].filling)
+                            td.numeric= Math.round(aggrScores[sample.sampleIdentifier].overall)
+                            td.numeric= '£' + ((aggrScores[sample.sampleIdentifier].price / sample.numberPerPack)*6).toFixed(2)
+                            td.numeric= '£' + ((sample.pricePerPack / sample.numberPerPack) * 6).toFixed(2)
+
+
