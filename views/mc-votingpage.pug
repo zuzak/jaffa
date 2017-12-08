@@ -35,7 +35,7 @@ block content
             legend
                 h2.heading-medium Would you buy sample #{sample.sampleIdentifier}?
             .multiple-choice
-                input(type="radio", value="true", required, name="wouldBuy",s).formcontrol#buyYes
+                input(type="radio", value="true", required, name="wouldBuy").formcontrol#buyYes
                 label(for="buyYes") Yes
             .multiple-choice
                 input(type="radio", value="false", required, name="wouldBuy").formcontrol#buyNo
@@ -44,7 +44,7 @@ block content
         fieldset
             legend
                 h2.heading-medium Is there anything you wish to say?
-            label.form-label(for="comments")
+            label.form-label(for="comment")
                 span Comments about sample #{sample.sampleIdentifier}
                 span.form-hint (optional)
             textarea.form-control(name="comment",)#comment= prev.comment

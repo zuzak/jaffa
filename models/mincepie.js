@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
   isVegan: Boolean,
   hasAlcohol: Boolean,
   isStandard: Boolean,
-    sampleIdentifier: String
+  sampleIdentifier: String
 })
 
 module.exports = mongoose.model('MincePie', schema)

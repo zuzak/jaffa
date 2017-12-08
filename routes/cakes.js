@@ -2,13 +2,11 @@ var app = require('../server.js')
 var Sample = require('../models/samples')
 var Score = require('../models/score')
 var User = require('../models/user')
-var exec = require('child_process').exec
-var fs = require('fs')
-var json2csv = require('json2csv')
 
-app.get('/count.json', function (req, res) {
+app.get('/count.json', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   Score.count({}, function (err, count) {
+    if (err) return next(err)
     res.json(count)
   })
 })

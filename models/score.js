@@ -1,5 +1,4 @@
 var mongoose = require('mongoose')
-var shuffle = require('array-shuffle')
 
 var schema = new mongoose.Schema({
   sampleIdentifier: String,

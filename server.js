@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
-sessionOptions.store = new MongoStore({ mongooseConnection: require('./database')})
+sessionOptions.store = new MongoStore({ mongooseConnection: require('./database') })
 
 app.use(session(sessionOptions))
 require('./routes')
