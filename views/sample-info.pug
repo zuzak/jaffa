@@ -1,52 +1,32 @@
 extends skeleton
 block css
   link(rel="stylesheet",href="/index.css")
+  script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
 block breadcrumbs
 block content
-  h1.heading-large Sample #{sample.sampleIdentifier}
-  h2.heading-medium #{sample.brand}
   .grid-row
-    .column-two-thirds
+    h1.heading-xlarge Sample #{sample.sampleIdentifier}
+    p.lede= sample.flavourText
+    p.text-secondary= sample.description
 
-      if sample.description
-        h3.heading-small Description
-        blockquote.font-small= sample.description
-
-      h3.heading-small Allergen information
-      p Contains: #{sample.allergens.join(', ')}
-      if sample.mayContain.length > 0
-        p May contain/not suitable for those suffering allergy from: #{sample.mayContain.join(', ')}
-
-      h3.heading-small Votes
-      p.font-xsmall: a.font-xsmall(href="votes.json") Download this as JSON
-      table.sortable
-        thead
-          th Sponge
-          th Orange
-          th Chocolate
-          th Overall
-          th Price
-        tbody
-          for score in scores
+      tbody
+        for sample in samples
+          if aggrScores[sample.sampleIdentifier]
             tr
-              td.numeric= score.sponge
-              td.numeric= score.orange
-              td.numeric= score.chocolate
-              td.numeric= score.overall
-              if score.price
-                td.numeric= '£' + (score.price).toFixed(2)
+              td.font-large.center= sample.sampleIdentifier
+              td= sample.brand
+              if userScores[sample.sampleIdentifier]
+                td.numeric= userScores[sample.sampleIdentifier].pastry
+                td.numeric= userScores[sample.sampleIdentifier].filling
+                td.numeric= userScores[sample.sampleIdentifier].overall
               else
                 td.numeric &ndash;
-          else
-            tr
-              td(colspan="6") Nobody has scored the #{sample.brand} jaffa cakes yet.
-    .column-one-third
-      if sample.image
-        img(src=sample.image)
-      .data
-        .data-item.bold-xlarge= '£' + sample.price.toFixed(2)
-        .data-item.bold-xsmall per #{sample.pricePer}-pack
-      .data
-        .data-item.bold-xlarge= '£' + (sample.price/sample.pricePer).toPrecision(2)
-        .data-item.bold-xsmall per cake
-  a(href='/').link-back Back to samples
+                td.numeric &ndash;
+                td.numeric &ndash;
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].pastry)
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].filling)
+              td.numeric= Math.round(aggrScores[sample.sampleIdentifier].overall)
+              td.numeric= '£' + ((aggrScores[sample.sampleIdentifier].price / sample.numberPerPack)*6).toFixed(2)
+              td.numeric= '£' + ((sample.pricePerPack / sample.numberPerPack) * 6).toFixed(2)
+
+

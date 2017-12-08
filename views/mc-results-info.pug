@@ -1,0 +1,93 @@
+extends skeleton
+block css
+  link(rel="stylesheet",href="/index.css")
+  script(src="https://kryogenix.org/code/browser/sorttable/sorttable.js")
+block breadcrumb
+  li: a(href='/results') Results
+  li= sample.sampleIdentifier
+block content
+  .grid-row
+    h1.heading-xlarge Sample #{sample.sampleIdentifier} &ndash; #{sample.purchaseLocation}
+    h2.heading-large= sample.brand
+    p.lede
+      span Sample #{sample.sampleIdentifier} were&nbsp;
+      strong= sample.brand
+      span &nbsp;from&nbsp;
+      strong= sample.purchaseLocation
+      span .
+    p They cost #{'£' + sample.pricePerPack.toFixed(2)} for a pack of #{sample.numberPerPack}.
+
+  .grid-row
+    if sample.flavourText
+      p.panel= sample.flavourText
+    p.text-secondary= sample.description
+  .grid-row
+    .column-one-third
+      .data
+        div.data-item
+          span.bold-xxlarge= Math.round(avgscore.pastry)
+          span.bold-large %
+        div.data-item.bold-xsmall average pastry score
+    .column-one-third
+      .data
+        div.data-item
+          span.bold-xxlarge= Math.round(avgscore.filling)
+          span.bold-large %
+        div.data-item.bold-xsmall average filling score
+    .column-one-third
+      .data
+        div.data-item
+          span.bold-xxlarge= Math.round(avgscore.overall)
+          span.bold-large %
+        div.data-item.bold-xsmall average overall score
+  if userScore[0]
+    .grid-row
+      .column-one-third
+
+        .data
+          div.data-item
+            span.bold-xlarge= Math.round(userScore[0].pastry)
+            span.bold-medium %
+          div.data-item.bold-xsmall your pastry score
+      .column-one-third
+        .data
+          div.data-item
+            span.bold-xlarge= Math.round(userScore[0].filling)
+            span.bold-medium %
+          div.data-item.bold-xsmall your filling score
+      .column-one-third
+        .data
+          div.data-item
+            span.bold-xlarge= Math.round(userScore[0].overall)
+            span.bold-medium %
+          div.data-item.bold-xsmall your overall score
+  h3.heading-medium Scores given to sample #{sample.sampleIdentifier}
+  table
+    thead
+      tr
+        th Pastry
+        th Filling
+        th Overall
+        th Price
+        th Would buy?
+    tbody
+      for score in scores
+        tr
+          td= score.pastry
+          td= score.filling
+          td= score.overall
+          td= '£' + score.price.toFixed(2)
+          if score.wouldBuy === true
+            td Would buy
+          else if score.wouldBuy === false
+            td Would not buy
+          else
+            td
+
+  h3.heading-medium Comments about sample #{sample.sampleIdentifier}
+  ol.list-number
+    for score in scores
+      if score.comment
+        li(style='white-space:pre').panel= score.comment
+
+  p: a.link-back(href='/results') Back to results

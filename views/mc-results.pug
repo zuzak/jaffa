@@ -10,7 +10,7 @@ block content
         table.sortable
             thead
                 tr
-                    th Identifier
+                    th №
                     th Brand
                     th Your pastry score
                     th Your filling score
@@ -25,7 +25,13 @@ block content
                     if aggrScores[sample.sampleIdentifier]
                         tr
                             td.font-large.center= sample.sampleIdentifier
-                            td= sample.brand
+                            td
+                                a(href='/sample/'+sample.sampleIdentifier)
+                                    div
+                                        strong= sample.purchaseLocation
+                                        //
+                                            span &nbsp;#{sample.brand}
+                                    div.text-secondary.font-xsmall= sample.brand
                             if userScores[sample.sampleIdentifier]
                                 td.numeric= userScores[sample.sampleIdentifier].pastry
                                 td.numeric= userScores[sample.sampleIdentifier].filling

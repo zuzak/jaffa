@@ -112,7 +112,7 @@ app.get('/', function (req, res, next) {
 })
 
 app.post('/lockout', function (req, res, next) {
-    User.update({user: req.sessionID}, {lockedOut: true}, function (err, response) {
+    User.update({user: req.sessionID}, {lockedOut: true}, {upsert: true}, function (err, response) {
         if (err) return next(err)
         res.redirect('/results')
     })
@@ -240,9 +240,9 @@ app.get('/results', function (req, res, next) {
             Score.aggregate([{
                 $group: {
                     _id: '$sampleIdentifier',
-                    pastry: { $avg: '$orange' },
-                    filling: { $avg: '$chocolate' },
-                    overall: { $avg: '$sponge' },
+                    pastry: { $avg: '$pastry' },
+                    filling: { $avg: '$filling' },
+                    overall: { $avg: '$overall' },
                     price: { $avg: '$price' }
                 }
             }], function (err, scores) {
@@ -261,6 +261,46 @@ app.get('/results', function (req, res, next) {
                     }
                     res.render('mc-results.pug', {samples, aggrScores, userScores})
                 })
+            })
+        })
+    })
+})
+
+
+app.get('/sample/:sample', function (req, res, next) {
+    User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
+        if (err) return next(err)
+        if (response.length === 0) return res.status(403).render('403.pug')
+        MincePie.find({sampleIdentifier: req.params.sample}, function (err, sample) {
+            if (sample.length !== 1) return next()
+            sample = sample[0]
+            if (err) return next(err)
+            Score.find({sampleIdentifier: sample.sampleIdentifier}, function (err, scores) {
+                Score.aggregate([{
+                    $group: {
+                        _id: '$sampleIdentifier',
+                        pastry: { $avg: '$pastry' },
+                        filling: { $avg: '$filling' },
+                        overall: { $avg: '$overall' },
+                        price: { $avg: '$price' }
+                    }
+                }], function (err, avgscores) {
+                    if (err) return next(err)
+                    console.log(avgscores)
+                    var avgscore; // FIXME
+                    for (var i = 0; i < avgscores.length; i++) {
+                        if (avgscores[i]._id === sample.sampleIdentifier) {
+                            avgscore = avgscores[i]
+                            break
+                        }
+                    }
+                    if (err) return next(err)
+                    Score.find({user: req.sessionID, sampleIdentifier: req.params.sample}, function (err, userScore) {
+                        if (err) return next(err)
+                        var userScores = {}
+                        res.render('mc-results-info.pug', {sample, avgscore, userScore, scores})
+                    })
+            })
             })
         })
     })
