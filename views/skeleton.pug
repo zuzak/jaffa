@@ -8,8 +8,8 @@ html
       link(rel='stylesheet', href='/index.css')
       script(src='/govuk/show-hide-content.js')
   body
-    if req && req.get('DNT') !== '1'
-      if req.user
+    if dnt !== '1'
+      if user
         script.
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -18,8 +18,7 @@ html
 
           ga('create', 'UA-20878451-7', 'auto');
           ga('send', 'pageview');
-          ga('set', 'userId', '#{req.user}');
-          ga('set', 'language', '#{getLocale()}');
+          ga('set', 'userId', '#{user}');
       else
         script.
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -29,6 +28,8 @@ html
 
           ga('create', 'UA-20878451-7', 'auto');
           ga('send', 'pageview');
+    else
+      // You set a DNT header so we're not including a Google Analytics script here
     header
       .header
         .grid-row
