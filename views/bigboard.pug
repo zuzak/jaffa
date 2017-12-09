@@ -1,0 +1,71 @@
+extends skeleton
+block append css
+  style.
+    #content, .header, .footer { max-width: 1800px !important }
+    .accent-bar { margin-bottom: 2em; }
+    .placeholder { color: #DEE0E2;}
+    .spacer { height: 1em; }
+block breadcrumbs
+block append meta
+ meta(http-equiv='refresh' content='30')
+
+mixin data(figure, caption)
+  .data
+    .data-item.bold-xxlarge= figure
+    .data-item.font-medium= caption
+mixin sample(identifier)
+  - samples['X'] = {brand: 'Dolor sit amet, consectetur adipiscing elit', purchaseLocation: 'Lorem ipsum'}
+  if samples[identifier] === undefined
+    .bold-xlarge &mdash;
+    .font-large Waiting for votes...
+  else
+    .bold-xlarge= samples[identifier].purchaseLocation
+    .font-large= samples[identifier].brand
+block content
+    .grid-row
+      .column-one-third
+        h1
+          .bold-xxlarge Live Results
+          .font-xlarge as of #{new Date().toLocaleTimeString('en-GB',{hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/London', })}
+      .column-two-thirds
+        .grid-row
+          .column-one-third: +data(voteCount, 'votes cast in total')
+          .column-one-third: +data(userCount, 'users promised')
+          .column-one-third: +data(lockedOutCount, 'users finished scoring')
+    .grid-row.spacer
+    .grid-row
+      .column-full
+        table
+          thead
+            tr
+              th.bold-large Category
+              th.bold-large Current Leader
+              th.bold-large.text-secondary Second Place
+          tbody
+            tr
+              th
+                .bold-xlarge Best Pastry
+              td: +sample(bestPastry)
+              td.text-secondary: +sample(secondBestPastry)
+            tr
+              th
+                .bold-xlarge Best Filling
+              td: +sample(bestFilling)
+              td.text-secondary: +sample(secondBestFilling)
+            tr
+              th
+                .bold-xlarge Best Overall
+              td: +sample(bestOverall)
+              td.text-secondary: +sample(secondBestOverall)
+            tr
+              th
+                .bold-xlarge Best In Show
+                .font-small (across all categories)
+              td: +sample(bestInShow)
+              td.text-secondary: +sample(secondBestInShow)
+            tr
+              th
+                .bold-xlarge Worst In Show
+                .font-small (across all categories)
+              td: +sample(worstInShow)
+              td.text-secondary: +sample(secondWorstInShow)

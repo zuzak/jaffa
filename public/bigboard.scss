@@ -1,0 +1,19 @@
+@import './index.scss';
+
+body, html {
+  background-color: $accent-color !important;
+  color: white;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.column-two-thirds {
+  overflow: hidden;
+}
+.data-item {
+  text-overflow: ellipsis;
+  max-width: 50%;
+  display: block;
+  white-space: nowrap;
+}

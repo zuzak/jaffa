@@ -3,6 +3,8 @@ var MincePie = require('../models/mincepie.js')
 var Score = require('../models/piescore')
 var shuffle = require('array-shuffle')
 var User = require('../models/user')
+var sortKeys = require('sort-keys')
+
 app.all('*', function (req, res, next) {
   MincePie.find({sampleIdentifier: {$exists: true}}, function (err, samples) {
     if (err) return next(err)
@@ -56,15 +58,39 @@ app.post('/add-a-pie', function (req, res, next) {
     })
 })
 
-// app.get('/', function (req, res, next) {
-//
-//   MincePie.find({}, function (err, samples) {
-//       console.log(err, samples)
-//       if (err) return next(err)
-//       res.render('mc-voting.pug', {samples})
-//   })
-// })
-
+app.post('/', function (req, res, next) {
+  if (req.body.promise) {
+    User.update({user: req.sessionID}, {promised: req.body.promise === 'promise'}, {upsert: true}, function (err, result) {
+      console.log(err, result)
+      if (err) {
+        next(err)
+      } else {
+        res.redirect('/')
+      }
+    })
+  } else {
+    res.redirect('/')
+  }
+})
+app.get('/', function (req, res, next) {
+  User.find({user: req.sessionID}, function (err, result) {
+    if (err) return next(err)
+    if (result.length > 0 && result[0].promised === true) return next()
+    var insults = [
+      'plonker',
+      'spoilsport',
+      'twit',
+      'scrub',
+      'spoilsport',
+      'prat',
+      'numpty',
+      'muppet',
+      ''
+    ]
+    res.locals.insult = insults[Math.floor(Math.random() * insults.length)]
+    res.render('promise.pug')
+  })
+})
 app.get('/', function (req, res, next) {
   if (!res.locals.votingOpen) {
     return next()
@@ -91,7 +117,12 @@ app.get('/', function (req, res, next) {
         scores[curr.sampleIdentifier] = curr
       }
       MincePie.find({}, function (err, samples) {
-        if (err) return next(err)
+        samples.sort(function (a, b) {
+          if (a.sampleIdentifier < b.sampleIdentifier) {
+            return -1
+          }
+          return 1
+        })
         res.render('mc-voting.pug', {samples, scores, count})
       })
     })
@@ -231,6 +262,7 @@ app.get('/results', function (req, res, next) {
     if (err) return next(err)
         // if (response.length === 0) return res.redirect('/')
     MincePie.find(function (err, samples) {
+      samples = sortKeys(samples)
       if (err) return next(err)
       Score.aggregate([{
         $group: {
@@ -298,4 +330,96 @@ app.get('/sample/:sample', function (req, res, next) {
       })
     })
   })
+})
+
+/***
+ * Bigboard stats aggregation :)
+ */
+app.get('/bigboard', function (req, res, next) {
+  Score.count({}, function (err, count) {
+    if (err) return next(err)
+    res.locals.voteCount = count
+    next()
+  })
+})
+
+app.get('/bigboard', function (req, res, next) {
+  User.count({}, function (err, count) {
+    if (err) return next(err)
+    res.locals.userCount = count
+    next()
+  })
+})
+
+app.get('/bigboard', function (req, res, next) {
+  User.count({lockedOut: true}, function (err, count) {
+    if (err) return next(err)
+    res.locals.lockedOutCount = count
+    next()
+  })
+})
+
+app.get('/bigboard', function (req, res, next) {
+  MincePie.find({}, function (err, samples) {
+    if (err) return next(err)
+    var pies = {}
+    for (var i = 0; i < samples.length; i++) {
+      pies[samples[i].sampleIdentifier] = samples[i]
+    }
+    res.locals.samples = pies
+    next()
+  })
+})
+
+app.get('/bigboard', function (req, res, next) {
+  Score.aggregate([{
+    $group: {
+      _id: '$sampleIdentifier',
+      pastry: { $avg: '$pastry' },
+      filling: { $avg: '$filling' },
+      overall: { $avg: '$overall' },
+      price: { $avg: '$price' }
+    }
+  }], function (err, scores) {
+    var maxPastry = 0
+    var maxFilling = 0
+    var maxOverall = 0
+    var maxAll = 0
+    var minAll = Infinity
+    for (var i = 0; i < scores.length; i++) {
+      var curr = scores[i]
+      if (maxPastry < curr.pastry) {
+        maxPastry = curr.pastry
+        res.locals.secondBestPastry = res.locals.bestPastry
+        res.locals.bestPastry = curr._id
+      }
+      if (maxFilling < curr.filling) {
+        maxFilling = curr.filling
+        res.locals.secondBestBilling = res.locals.bestFilling
+        res.locals.bestFilling = curr._id
+      }
+      if (maxOverall < curr.overall) {
+        maxOverall = curr.overall
+        res.locals.secondBestOverall = res.locals.bestOverall
+        res.locals.bestOverall = curr._id
+      }
+      var currMax = curr.overall + curr.filling + curr.pastry
+      if (maxAll < currMax) {
+        maxAll = currMax
+        res.locals.secondBestInShow = res.locals.bestInShow
+        res.locals.bestInShow = curr._id
+      }
+      if (minAll > currMax) {
+        minAll = currMax
+        res.locals.secondWorstInShow = res.locals.worstInShow
+        res.locals.worstInShow = curr._id
+      }
+    }
+    // res.locals.json = count
+    next()
+  })
+})
+
+app.get('/bigboard', function (req, res, next) {
+  res.render('bigboard.pug')
 })

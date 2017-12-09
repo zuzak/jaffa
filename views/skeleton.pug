@@ -7,6 +7,9 @@ html
     block css
       link(rel='stylesheet', href='/index.css')
       script(src='/govuk/show-hide-content.js')
+    block meta
+      meta(property='og:image', content='https://img00.deviantart.net/b5fd/i/2004/306/f/a/pie_ninja_by_super_munkyboy.jpg')
+
   body
     if dnt !== '1'
       if user
@@ -36,6 +39,8 @@ html
           .column-two-thirds.font-large
             block header
               a.logo(href='/') &#9819; PIE.NINJA
+          .column-one-third
+            block rightheader
 
     #content
       block banner
@@ -61,3 +66,4 @@ html
                 a(href='/close-submissions') Assign letters
               else
                 a(href='/sample-admin') View letters
+              a(href='/bigboard') Big board
