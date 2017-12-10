@@ -14,13 +14,13 @@ mixin data(figure, caption)
     .data-item.bold-xxlarge= figure
     .data-item.font-medium= caption
 mixin sample(identifier)
-  - samples['X'] = {brand: 'Dolor sit amet, consectetur adipiscing elit', purchaseLocation: 'Lorem ipsum'}
-  if samples[identifier] === undefined
+  if identifier === undefined
     .bold-xlarge &mdash;
     .font-large Waiting for votes...
   else
     .bold-xlarge= samples[identifier].purchaseLocation
     .font-large= samples[identifier].brand
+    .font-medium.text-secondary= samples[identifier].description
 block content
     .grid-row
       .column-one-third
@@ -29,8 +29,8 @@ block content
           .font-xlarge as of #{new Date().toLocaleTimeString('en-GB',{hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/London', })}
       .column-two-thirds
         .grid-row
-          .column-one-third: +data(voteCount, 'votes cast in total')
-          .column-one-third: +data(userCount, 'users promised')
+          .column-one-third: +data(voteCount, 'votes cast against ' + Object.keys(samples).length + ' mince pies')
+          .column-one-third: +data(userCount, 'users recorded')
           .column-one-third: +data(lockedOutCount, 'users finished scoring')
     .grid-row.spacer
     .grid-row
@@ -40,32 +40,59 @@ block content
             tr
               th.bold-large Category
               th.bold-large Current Leader
-              th.bold-large.text-secondary Second Place
+              th.bold-large Current Score
           tbody
             tr
               th
                 .bold-xlarge Best Pastry
               td: +sample(bestPastry)
-              td.text-secondary: +sample(secondBestPastry)
+              td.numeric.font-xlarge= bestPastryScore
             tr
               th
                 .bold-xlarge Best Filling
               td: +sample(bestFilling)
-              td.text-secondary: +sample(secondBestFilling)
+              td.numeric.font-xlarge= bestFillingScore
             tr
               th
                 .bold-xlarge Best Overall
               td: +sample(bestOverall)
-              td.text-secondary: +sample(secondBestOverall)
+              td.numeric.font-xlarge= bestOverallScore
             tr
               th
                 .bold-xlarge Best In Show
                 .font-small (across all categories)
               td: +sample(bestInShow)
-              td.text-secondary: +sample(secondBestInShow)
+              td.numeric.font-xlarge= bestInShowScore
             tr
               th
                 .bold-xlarge Worst In Show
                 .font-small (across all categories)
               td: +sample(worstInShow)
-              td.text-secondary: +sample(secondWorstInShow)
+              td.numeric.font-xlarge= worstInShowScore
+            tr
+              th
+                .bold-xlarge Perceived Priciest
+                .font-small (weighted by pack size)
+              td: +sample(percievedPriciest)
+              td.numeric
+                .font-xlarge= maxPrice
+                .font-medium.text-secondary= 'actually £' + ((samples[percievedPriciest].pricePerPack/samples[percievedPriciest].numberPerPack)*6).toFixed(2)
+            tr
+              th
+                .bold-xlarge Perceived Cheapest
+                .font-small (weighted by pack size)
+              td: +sample(percievedCheapest)
+              td.numeric
+                .font-xlarge= minPrice
+                .font-medium.text-secondary= 'actually £' + ((samples[percievedCheapest].pricePerPack/samples[percievedCheapest].numberPerPack)*6).toFixed(2)
+            tr
+              th
+                .bold-xlarge Worst Guess
+                .font-small (largest difference of actual and guessed price)
+              td: +sample(worstGuess)
+              td.numeric
+                .font-xlarge= worstGuessScore
+                if worstGuessScoreMoreExpensive === true
+                  .font-medium.text-secondary dearer than expected
+                else
+                  .font-medium.text-secondary cheaper than expected

@@ -3,7 +3,6 @@ var MincePie = require('../models/mincepie.js')
 var Score = require('../models/piescore')
 var shuffle = require('array-shuffle')
 var User = require('../models/user')
-var sortKeys = require('sort-keys')
 
 app.all('*', function (req, res, next) {
   MincePie.find({sampleIdentifier: {$exists: true}}, function (err, samples) {
@@ -25,7 +24,6 @@ app.post('/add-a-pie', function (req, res, next) {
   if (res.locals.votingOpen) {
     res.status(403).render('403.pug')
   }
-  console.log('aa', req.body)
   if (req.body.isVegetarian === 'null') req.body.isVegetarian = null
   if (req.body.isVegetarian === 'vegan') {
     req.body.isVegan = true
@@ -52,7 +50,6 @@ app.post('/add-a-pie', function (req, res, next) {
       upsert: true
     },
     function (err, samples) {
-      console.log(err, samples)
       if (err) return next(err)
       return res.render('mc-sample-submitted.pug', {duplicate: false})
     })
@@ -61,7 +58,6 @@ app.post('/add-a-pie', function (req, res, next) {
 app.post('/', function (req, res, next) {
   if (req.body.promise) {
     User.update({user: req.sessionID}, {promised: req.body.promise === 'promise'}, {upsert: true}, function (err, result) {
-      console.log(err, result)
       if (err) {
         next(err)
       } else {
@@ -113,7 +109,6 @@ app.get('/', function (req, res, next) {
       var scores = {}
       for (var i = 0; i < rawScores.length; i++) {
         var curr = rawScores[i]
-        console.log(curr)
         scores[curr.sampleIdentifier] = curr
       }
       MincePie.find({}, function (err, samples) {
@@ -135,7 +130,6 @@ app.get('/', function (req, res, next) {
     next()
   }
   MincePie.find({}, function (err, samples) {
-    console.log(err, samples)
     if (err) return next(err)
     res.render('sample-entrysplash.pug', {samples})
   })
@@ -186,7 +180,6 @@ app.post('/close-submissions', function (req, res, next) {
       }, {upsert: true},
             function (err) {
               if (err) return next(err)
-              console.log('b')
             })
     }
     return res.redirect('/sample-admin')
@@ -198,7 +191,6 @@ app.post('/close-submissions', function (req, res, next) {
     for (var i = 0; i < pies.length; i++) {
       var pie = pies[i]
       delete pie.sampleIdentifier
-      console.log('c')
       MincePie.update(pie, {
         sampleIdentifier: String.fromCharCode(945 + i) // 945 == 'α'
       }, {upsert: true},
@@ -222,7 +214,6 @@ app.get('/sample-admin', function (req, res, next) {
 
 app.get('/sample-admin/:id', function (req, res, next) {
   MincePie.find({_id: req.params.id}, function (err, response) {
-    console.log(err, response)
     if (response === undefined) return next()
     if (response.count > 1) throw new Error('duplicates')
     res.render('sample-admin-detail.pug', {sample: response[0]})
@@ -260,10 +251,15 @@ app.post('/vote/:sample', function (req, res, next) {
 app.get('/results', function (req, res, next) {
   User.find({user: req.sessionID, lockedOut: true}, function (err, response) {
     if (err) return next(err)
-        // if (response.length === 0) return res.redirect('/')
+    if (response.length === 0) return res.redirect('/')
     MincePie.find(function (err, samples) {
-      samples = sortKeys(samples)
       if (err) return next(err)
+      samples.sort(function (a, b) {
+        if (a.sampleIdentifier < b.sampleIdentifier) {
+          return -1
+        }
+        return 1
+      })
       Score.aggregate([{
         $group: {
           _id: '$sampleIdentifier',
@@ -313,7 +309,6 @@ app.get('/sample/:sample', function (req, res, next) {
           }
         }], function (err, avgscores) {
           if (err) return next(err)
-          console.log(avgscores)
           var avgscore // FIXME
           for (var i = 0; i < avgscores.length; i++) {
             if (avgscores[i]._id === sample.sampleIdentifier) {
@@ -381,40 +376,72 @@ app.get('/bigboard', function (req, res, next) {
       price: { $avg: '$price' }
     }
   }], function (err, scores) {
-    var maxPastry = 0
-    var maxFilling = 0
-    var maxOverall = 0
-    var maxAll = 0
+    var maxPastry = Number.NEGATIVE_INFINITY
+    var maxFilling = Number.NEGATIVE_INFINITY
+    var maxOverall = Number.NEGATIVE_INFINITY
+    var maxAll = Number.NEGATIVE_INFINITY
+    var maxPrice = Number.NEGATIVE_INFINITY
+    var minPrice = Infinity
     var minAll = Infinity
+    var maxDelta = Number.NEGATIVE_INFINITY
+
+    res.locals.secondBestPastry = null
     for (var i = 0; i < scores.length; i++) {
       var curr = scores[i]
+      console.log('LOOPING', curr._id)
       if (maxPastry < curr.pastry) {
         maxPastry = curr.pastry
+        console.log('Replacing BEST PASTRY', res.locals.bestPastry, curr._id)
         res.locals.secondBestPastry = res.locals.bestPastry
         res.locals.bestPastry = curr._id
       }
       if (maxFilling < curr.filling) {
         maxFilling = curr.filling
-        res.locals.secondBestBilling = res.locals.bestFilling
         res.locals.bestFilling = curr._id
       }
       if (maxOverall < curr.overall) {
         maxOverall = curr.overall
-        res.locals.secondBestOverall = res.locals.bestOverall
         res.locals.bestOverall = curr._id
       }
       var currMax = curr.overall + curr.filling + curr.pastry
       if (maxAll < currMax) {
         maxAll = currMax
-        res.locals.secondBestInShow = res.locals.bestInShow
         res.locals.bestInShow = curr._id
       }
       if (minAll > currMax) {
         minAll = currMax
-        res.locals.secondWorstInShow = res.locals.worstInShow
         res.locals.worstInShow = curr._id
       }
+      var weightedPrice = curr.price / res.locals.samples[curr._id].numberPerPack
+      console.log(weightedPrice)
+      if (maxPrice < weightedPrice) {
+        maxPrice = weightedPrice
+        res.locals.percievedPriciest = curr._id
+        console.log('setting dearest to', curr._id)
+      }
+      if (minPrice > weightedPrice) {
+        minPrice = weightedPrice
+        res.locals.percievedCheapest = curr._id
+        console.log('setting cheapest to', curr._id)
+      }
+      var actualPrice = res.locals.samples[curr._id].pricePerPack / res.locals.samples[curr._id].numberPerPack
+      var delta = Math.abs(actualPrice - weightedPrice)
+      console.log(curr._id, 'PRICE', actualPrice, 'DELTA', delta, 'MAXDELTA', maxDelta)
+      if (delta > maxDelta) {
+        res.locals.worstGuess = curr._id
+        res.locals.worstGuessMoreExpensive = actualPrice > weightedPrice
+        maxDelta = delta
+      }
     }
+    console.log(JSON.stringify(res.locals, null, 4))
+    res.locals.bestFillingScore = maxFilling
+    res.locals.bestPastryScore = maxPastry
+    res.locals.bestOverallScore = maxOverall
+    res.locals.bestInShowScore = Math.round(maxAll / 3)
+    res.locals.worstInShowScore = Math.round(minAll / 3)
+    res.locals.maxPrice = '£' + (maxPrice * 6).toFixed(2)
+    res.locals.minPrice = '£' + (minPrice * 6).toFixed(2)
+    res.locals.worstGuessScore = 'Δ £' + (maxDelta * 6).toFixed(2)
     // res.locals.json = count
     next()
   })
