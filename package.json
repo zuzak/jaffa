@@ -13,7 +13,7 @@
     "govuk_frontend_toolkit": "^5.2.0",
     "json2csv": "^3.11.1",
     "mongoose": "^4.11.9",
-    "node-sass-middleware": "^0.9.8",
+    "node-sass-middleware": "^1.0.0",
     "pug": "^2.0.0-beta6",
     "sort-keys": "^2.0.0"
   },
